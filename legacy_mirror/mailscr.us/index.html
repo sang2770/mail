@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <!-- Mirrored from mailscr.us/?lang=vi by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
-  <head>
+  
+<!-- Mirrored from mailscr.us/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:47 GMT -->
+<head>
     <!-- Google tag (gtag.js) -->
     <script
       async
@@ -105,12 +106,12 @@
         /* Light Theme Shadows */
         --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
         --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-        --shadow-md:
-          0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        --shadow-lg:
-          0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        --shadow-xl:
-          0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
 
         /* Light Theme Glass */
         --glass-bg: rgba(255, 255, 255, 0.9);
@@ -153,12 +154,12 @@
         /* Dark Theme Shadows */
         --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
         --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
-        --shadow-md:
-          0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-        --shadow-lg:
-          0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
-        --shadow-xl:
-          0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4),
+          0 2px 4px -2px rgb(0 0 0 / 0.4);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4),
+          0 4px 6px -4px rgb(0 0 0 / 0.4);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4),
+          0 8px 10px -6px rgb(0 0 0 / 0.4);
 
         /* Dark Theme Glass */
         --glass-bg: rgba(15, 23, 42, 0.7);
@@ -194,11 +195,7 @@
       }
 
       body {
-        font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
         background: var(--gradient-bg);
         min-height: 100vh;
         overflow-x: hidden;
@@ -1351,9 +1348,7 @@
 
       /* Theme transition */
       * {
-        transition:
-          background-color 0.3s ease,
-          color 0.3s ease,
+        transition: background-color 0.3s ease, color 0.3s ease,
           border-color 0.3s ease;
       }
       /* Dis banner-sidebar mobile*/
@@ -1701,8 +1696,9 @@
         const minutes = String(vietnamTime.getUTCMinutes()).padStart(2, "0");
         const seconds = String(vietnamTime.getUTCSeconds()).padStart(2, "0");
 
-        document.getElementById("currentTime").textContent =
-          `VN ${hours}:${minutes}:${seconds}`;
+        document.getElementById(
+          "currentTime"
+        ).textContent = `VN ${hours}:${minutes}:${seconds}`;
       }
 
       // Format time functions - Convert to Vietnam Time
@@ -1911,7 +1907,7 @@
         });
 
         const placeholderElements = document.querySelectorAll(
-          "[data-translate-placeholder]",
+          "[data-translate-placeholder]"
         );
         placeholderElements.forEach((el) => {
           const key = el.getAttribute("data-translate-placeholder");
@@ -2014,7 +2010,7 @@
           key,
           { name: "HMAC", hash: "SHA-1" },
           false,
-          ["sign"],
+          ["sign"]
         );
         const hmac = await crypto.subtle.sign("HMAC", cryptoKey, buffer);
         const offset = new Uint8Array(hmac)[19] & 0xf;
@@ -2047,7 +2043,7 @@
         try {
           const response = await fetch(
             `/api/random-domains?page=${page}&limit=${limit}`,
-            { timeout: 10000 },
+            { timeout: 10000 }
           );
           if (!response.ok) throw new Error("Failed to fetch domains");
           const data = await response.json();
@@ -2055,7 +2051,7 @@
           availableDomains = new Set(data.domains);
           const domainSelect = document.getElementById("domainSelect");
           domainSelect.innerHTML = `<option value="">${t(
-            "select_domain",
+            "select_domain"
           )}</option>`;
           data.domains.forEach((domain) => {
             const option = document.createElement("option");
@@ -2117,7 +2113,7 @@
 
             if (!isOnline && availableDomains.has(domain)) {
               console.warn(
-                `Domain ${domain} is in available list but shows offline`,
+                `Domain ${domain} is in available list but shows offline`
               );
             }
 
@@ -2125,7 +2121,7 @@
           } catch (error) {
             console.error(
               `Error checking domain ${domain} (attempt ${attempt + 1}):`,
-              error,
+              error
             );
             if (attempt === retries) {
               statusElement.textContent = "Error";
@@ -2138,7 +2134,7 @@
 
               showNotification(
                 `${t("cannot_check_domain")} ${domain}. ${t("it_may_work")}`,
-                "error",
+                "error"
               );
               return false;
             }
@@ -2162,7 +2158,7 @@
             `/api/add-domain/${customDomain}?show_on_homepage=${showOnHomepage}`,
             {
               method: "POST",
-            },
+            }
           );
           const result = await response.json();
 
@@ -2175,7 +2171,7 @@
             const visibilityText = result.show_on_homepage ? "" : " (private)";
             showNotification(
               `${statusIcon} ${statusText}${visibilityText}`,
-              "success",
+              "success"
             );
 
             // Don't refresh domains list as it's now private by default
@@ -2194,13 +2190,13 @@
           } else {
             showNotification(
               `${t("error_add_domain")}: ${result.detail}`,
-              "error",
+              "error"
             );
           }
         } catch (error) {
           showNotification(
             `${t("error_add_domain")}: ${error.message}`,
-            "error",
+            "error"
           );
           console.error("Error adding domain:", error);
         }
@@ -2263,7 +2259,7 @@
         if (fetchTimeout) clearTimeout(fetchTimeout);
         fetchTimeout = setTimeout(
           () => fetchEmails(false, 1, currentLimit),
-          500,
+          500
         );
       }
 
@@ -2347,7 +2343,7 @@
       async function fetchEmails(
         autoRefresh = false,
         page = 1,
-        limit = currentLimit,
+        limit = currentLimit
       ) {
         const { user, domain } = parseEmail();
         if (!domain || !user) {
@@ -2364,7 +2360,7 @@
 
         try {
           const response = await fetch(
-            `/api/email/${domain}/${user}/?page=${page}&limit=${limit}`,
+            `/api/email/${domain}/${user}/?page=${page}&limit=${limit}`
           );
           if (!response.ok) {
             throw new Error(`Failed to fetch emails: ${response.status}`);
@@ -2375,14 +2371,14 @@
 
           if (autoRefresh && page === 1) {
             const newEmails = emails.filter(
-              (email) => !currentEmails.some((e) => e.id === email.id),
+              (email) => !currentEmails.some((e) => e.id === email.id)
             );
             if (newEmails.length > 0) {
               currentEmails = emails;
               displayEmails(emails, true);
               showNotification(
                 `${newEmails.length} ${t("new_emails_received")}`,
-                "success",
+                "success"
               );
             }
           } else {
@@ -2395,7 +2391,7 @@
           updatePaginationInfo(
             data.total || 0,
             data.page || page,
-            data.limit || limit,
+            data.limit || limit
           );
         } catch (error) {
           console.error("Error fetching emails:", error);
@@ -2453,8 +2449,8 @@
                 </div>
                 <div style="display: flex; gap: 5px;">
                     <button onclick="changePage(${page - 1})" ${
-                      page <= 1 ? "disabled" : ""
-                    } 
+          page <= 1 ? "disabled" : ""
+        } 
                             style="padding: 5px 10px; border: 1px solid var(--border-primary); border-radius: 4px; background: var(--bg-elevated); color: var(--text-primary); cursor: ${
                               page <= 1 ? "not-allowed" : "pointer"
                             };">
@@ -2464,8 +2460,8 @@
                         ${page}
                     </span>
                     <button onclick="changePage(${page + 1})" ${
-                      page >= totalPages ? "disabled" : ""
-                    } 
+          page >= totalPages ? "disabled" : ""
+        } 
                             style="padding: 5px 10px; border: 1px solid var(--border-primary); border-radius: 4px; background: var(--bg-elevated); color: var(--text-primary); cursor: ${
                               page >= totalPages ? "not-allowed" : "pointer"
                             };">
@@ -2549,14 +2545,11 @@
                         </div>
                     </td>
                 `;
-
+          
           // Add single click handler to the row (excluding action buttons and favorite icon)
           row.addEventListener("click", function (e) {
             // Check if click is on action buttons or favorite icon
-            if (
-              e.target.closest(".action-buttons") ||
-              e.target.closest(".favorite-icon")
-            ) {
+            if (e.target.closest(".action-buttons") || e.target.closest(".favorite-icon")) {
               return;
             }
             handleViewEmail(email.id);
@@ -2570,21 +2563,19 @@
       function handleViewEmail(emailId) {
         // Prevent multiple rapid clicks
         if (isLoading) return;
-
+        
         // Mark as read immediately to prevent flicker
         if (!readEmails.includes(emailId.toString())) {
           readEmails.push(emailId.toString());
           localStorage.setItem("readEmails", JSON.stringify(readEmails));
-
+          
           // Update the row appearance immediately
           const emailRow = document.getElementById(`email-row-${emailId}`);
           if (emailRow) {
-            emailRow.className = emailRow.className
-              .replace("unread", "read")
-              .replace("new-email", "read");
+            emailRow.className = emailRow.className.replace('unread', 'read').replace('new-email', 'read');
           }
         }
-
+        
         // Always load the email details (both mark as read AND open email)
         viewEmail(emailId);
       }
@@ -2670,8 +2661,8 @@
                 onclick="trackBannerClick(${banner.id})"
                 class="banner-link">
                 <img src="${banner.image_url}" alt="${
-                  banner.title
-                }" class="banner-image">
+          banner.title
+        }" class="banner-image">
                 ${
                   banner.contact_info
                     ? `
@@ -2700,12 +2691,10 @@
       // FIXED: View email function - Always open email, toggle close only if same email clicked
       async function viewEmail(emailId) {
         const { user, domain } = parseEmail();
-
+        
         // If clicking the same email that's already open, close it
         if (currentOpenEmailId === emailId) {
-          const existingDetailRow = document.querySelector(
-            "tr.email-detail-row",
-          );
+          const existingDetailRow = document.querySelector("tr.email-detail-row");
           if (existingDetailRow) {
             existingDetailRow.remove();
           }
@@ -2720,9 +2709,7 @@
         }
 
         try {
-          const response = await fetch(
-            `/api/email/${domain}/${user}/${emailId}`,
-          );
+          const response = await fetch(`/api/email/${domain}/${user}/${emailId}`);
           if (!response.ok) throw new Error("Failed to fetch email");
           const email = await response.json();
 
@@ -2776,7 +2763,7 @@
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             const formattedBody = email.body.replace(
               urlRegex,
-              '<a href="$1" target="_blank">$1</a>',
+              '<a href="$1" target="_blank">$1</a>'
             );
             detailBody.innerHTML =
               formattedBody.replace(/\n/g, "<br>") || t("no_content");
@@ -2801,21 +2788,19 @@
         try {
           const response = await fetch(
             `/api/email/${domain}/${user}/${emailId}`,
-            { method: "DELETE" },
+            { method: "DELETE" }
           );
           if (!response.ok) throw new Error("Failed to delete email");
-
+          
           // Close email detail if it's open
           if (currentOpenEmailId === emailId) {
-            const existingDetailRow = document.querySelector(
-              "tr.email-detail-row",
-            );
+            const existingDetailRow = document.querySelector("tr.email-detail-row");
             if (existingDetailRow) {
               existingDetailRow.remove();
             }
             currentOpenEmailId = null;
           }
-
+          
           fetchEmails(false, currentPage, currentLimit);
           showNotification(t("email_deleted"), "success");
         } catch (error) {
@@ -2843,7 +2828,7 @@
 
           while (hasMore) {
             const response = await fetch(
-              `/api/email/${domain}/${user}/?page=${page}&limit=100`,
+              `/api/email/${domain}/${user}/?page=${page}&limit=100`
             );
             if (!response.ok) throw new Error("Failed to fetch emails");
             const data = await response.json();
@@ -2862,7 +2847,7 @@
             try {
               const deleteResponse = await fetch(
                 `/api/email/${domain}/${user}/${email.id}`,
-                { method: "DELETE" },
+                { method: "DELETE" }
               );
               if (deleteResponse.ok) {
                 deleteCount++;
@@ -2873,14 +2858,12 @@
           }
 
           // Close any open email detail
-          const existingDetailRow = document.querySelector(
-            "tr.email-detail-row",
-          );
+          const existingDetailRow = document.querySelector("tr.email-detail-row");
           if (existingDetailRow) {
             existingDetailRow.remove();
           }
           currentOpenEmailId = null;
-
+          
           showNotification(`${deleteCount} ${t("emails_deleted")}`, "success");
           fetchEmails(false, 1, currentLimit);
         } catch (error) {
@@ -2934,10 +2917,10 @@
           favoriteDiv.innerHTML = `
                     <div>
                         <strong>${favorite.email.sender}</strong> - ${
-                          favorite.email.subject
-                        }
+            favorite.email.subject
+          }
                         <small style="color: var(--text-tertiary); margin-left: 10px;">${formatVietnamDate(
-                          favorite.email.date,
+                          favorite.email.date
                         )}</small>
                     </div>
                     <div style="display: flex; gap: 8px;">
@@ -2969,7 +2952,7 @@
         if (!favorite) return;
         showNotification(
           `Loading favorite from ${favorite.email.sender}`,
-          "info",
+          "info"
         );
       }
 
@@ -3074,5 +3057,5 @@
     </script>
   </body>
 
-  <!-- Mirrored from mailscr.us/?lang=vi by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
+<!-- Mirrored from mailscr.us/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
 </html>

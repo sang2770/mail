@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - MailScr</title>
+  <style>
+    body { font-family: Inter, Arial, sans-serif; background: #f4f7fb; margin: 0; color: #1f2937; }
+    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,.06); margin-bottom: 16px; }
+    h1, h2 { margin: 0 0 12px; }
+    form { display: grid; grid-template-columns: 1.4fr 1.2fr 1fr auto; gap: 8px; margin-bottom: 10px; }
+    input, select, button { padding: 8px 10px; border-radius: 8px; border: 1px solid #d1d5db; }
+    button { cursor: pointer; border: 0; background: #2563eb; color: #fff; font-weight: 600; }
+    button.secondary { background: #6b7280; }
+    button.danger { background: #dc2626; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; border-bottom: 1px solid #e5e7eb; padding: 10px 6px; font-size: 14px; }
+    .msg { font-size: 14px; margin-top: 4px; color: #2563eb; }
+    .small { font-size: 13px; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Admin Dashboard</h1>
+      <div>
+        <a href="/" style="margin-right: 8px;">Trang chủ</a>
+        <a href="/login.html" style="margin-right: 8px;">Đăng nhập</a>
+        <button class="secondary" id="logoutBtn">Đăng xuất</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Quản lý User</h2>
+      <form id="userForm">
+        <input id="username" placeholder="username" required />
+        <input id="password" placeholder="password" required />
+        <select id="role" required>
+          <option value="basic">basic</option>
+          <option value="premium">premium</option>
+          <option value="vip">vip</option>
+          <option value="admin">admin</option>
+        </select>
+        <button type="submit">Thêm user</button>
+      </form>
+      <table>
+        <thead><tr><th>Username</th><th>Role</th><th>Hành động</th></tr></thead>
+        <tbody id="userTable"></tbody>
+      </table>
+      <div id="userMsg" class="msg"></div>
+    </div>
+
+    <div class="card">
+      <h2>Quản lý Domain</h2>
+      <form id="domainForm">
+        <input id="domainName" placeholder="example.com" required />
+        <select id="domainTier" required>
+          <option value="basic">basic</option>
+          <option value="premium">premium</option>
+          <option value="vip">vip</option>
+        </select>
+        <select id="domainPublic" required>
+          <option value="true">public</option>
+          <option value="false">private</option>
+        </select>
+        <button type="submit">Thêm domain</button>
+      </form>
+      <table>
+        <thead><tr><th>Domain</th><th>Tier</th><th>Public</th><th>Hành động</th></tr></thead>
+        <tbody id="domainTable"></tbody>
+      </table>
+      <div id="domainMsg" class="msg"></div>
+      <div class="small">Yêu cầu quyền admin. Token lưu trong localStorage key `mail_token`.</div>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('mail_token');
+    const role = localStorage.getItem('mail_role');
+
+    if (!token || role !== 'admin') {
+      window.location.href = '/login.html';
+    }
+
+    const authHeaders = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        ...options,
+        headers: {
+          ...authHeaders,
+          ...(options.headers || {})
+        }
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Request failed');
+      }
+      return data;
+    }
+
+    async function loadUsers() {
+      const users = await api('/api/admin/users');
+      const table = document.getElementById('userTable');
+      table.innerHTML = users.map((u) => `
+        <tr>
+          <td>${u.username}</td>
+          <td>
+            <select onchange="updateUserRole('${u.username}', this.value)">
+              <option value="basic" ${u.role==='basic'?'selected':''}>basic</option>
+              <option value="premium" ${u.role==='premium'?'selected':''}>premium</option>
+              <option value="vip" ${u.role==='vip'?'selected':''}>vip</option>
+              <option value="admin" ${u.role==='admin'?'selected':''}>admin</option>
+            </select>
+          </td>
+          <td><button class="danger" onclick="deleteUser('${u.username}')">Xóa</button></td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadDomains() {
+      const domains = await api('/api/admin/domains');
+      const table = document.getElementById('domainTable');
+      table.innerHTML = domains.map((d) => `
+        <tr>
+          <td>${d.name}</td>
+          <td>
+            <select onchange="updateDomainTier('${d.name}', this.value)">
+              <option value="basic" ${d.tier==='basic'?'selected':''}>basic</option>
+              <option value="premium" ${d.tier==='premium'?'selected':''}>premium</option>
+              <option value="vip" ${d.tier==='vip'?'selected':''}>vip</option>
+            </select>
+          </td>
+          <td>${d.public ? 'yes' : 'no'}</td>
+          <td><button class="danger" onclick="deleteDomain('${d.name}')">Xóa</button></td>
+        </tr>
+      `).join('');
+    }
+
+    async function updateUserRole(username, role) {
+      try {
+        await api(`/api/admin/users/${username}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ role })
+        });
+        document.getElementById('userMsg').textContent = `Đã cập nhật role cho ${username}`;
+      } catch (error) {
+        document.getElementById('userMsg').textContent = error.message;
+      }
+    }
+
+    async function deleteUser(username) {
+      if (!confirm(`Xóa user ${username}?`)) return;
+      try {
+        await api(`/api/admin/users/${username}`, { method: 'DELETE' });
+        await loadUsers();
+      } catch (error) {
+        document.getElementById('userMsg').textContent = error.message;
+      }
+    }
+
+    async function updateDomainTier(name, tier) {
+      try {
+        await api(`/api/admin/domains/${name}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ tier })
+        });
+        document.getElementById('domainMsg').textContent = `Đã cập nhật tier ${name}`;
+      } catch (error) {
+        document.getElementById('domainMsg').textContent = error.message;
+      }
+    }
+
+    async function deleteDomain(name) {
+      if (!confirm(`Xóa domain ${name}?`)) return;
+      try {
+        await api(`/api/admin/domains/${name}`, { method: 'DELETE' });
+        await loadDomains();
+      } catch (error) {
+        document.getElementById('domainMsg').textContent = error.message;
+      }
+    }
+
+    document.getElementById('userForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const role = document.getElementById('role').value;
+
+      try {
+        await api('/api/admin/users', {
+          method: 'POST',
+          body: JSON.stringify({ username, password, role })
+        });
+        document.getElementById('userMsg').textContent = 'Thêm user thành công';
+        event.target.reset();
+        await loadUsers();
+      } catch (error) {
+        document.getElementById('userMsg').textContent = error.message;
+      }
+    });
+
+    document.getElementById('domainForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const name = document.getElementById('domainName').value.trim();
+      const tier = document.getElementById('domainTier').value;
+      const isPublic = document.getElementById('domainPublic').value === 'true';
+
+      try {
+        await api('/api/admin/domains', {
+          method: 'POST',
+          body: JSON.stringify({ name, tier, public: isPublic })
+        });
+        document.getElementById('domainMsg').textContent = 'Thêm domain thành công';
+        event.target.reset();
+        await loadDomains();
+      } catch (error) {
+        document.getElementById('domainMsg').textContent = error.message;
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('mail_token');
+      localStorage.removeItem('mail_role');
+      window.location.href = '/login.html';
+    });
+
+    Promise.all([loadUsers(), loadDomains()]).catch((error) => {
+      alert(error.message);
+      if (error.message.toLowerCase().includes('unauthorized') || error.message.toLowerCase().includes('admin')) {
+        window.location.href = '/login.html';
+      }
+    });
+
+    window.updateUserRole = updateUserRole;
+    window.deleteUser = deleteUser;
+    window.updateDomainTier = updateDomainTier;
+    window.deleteDomain = deleteDomain;
+  </script>
+</body>
+</html>

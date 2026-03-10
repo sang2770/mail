@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập - MailScr Admin</title>
+  <style>
+    body { font-family: Inter, Arial, sans-serif; background: #f4f7fb; margin: 0; display: grid; place-items: center; min-height: 100vh; }
+    .card { width: 100%; max-width: 420px; background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    h1 { margin: 0 0 8px; font-size: 22px; color: #1f2937; }
+    p { margin: 0 0 20px; color: #6b7280; }
+    label { display: block; margin: 12px 0 6px; color: #374151; font-weight: 600; }
+    input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; }
+    button { margin-top: 16px; width: 100%; padding: 10px 12px; border: 0; border-radius: 8px; background: #2563eb; color: #fff; font-weight: 600; cursor: pointer; }
+    .msg { margin-top: 12px; font-size: 14px; }
+    .error { color: #dc2626; }
+    .ok { color: #16a34a; }
+    .links { margin-top: 16px; display: flex; justify-content: space-between; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Đăng nhập quản trị</h1>
+    <p>Dùng tài khoản để truy cập domain ẩn và trang admin.</p>
+
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input id="username" name="username" placeholder="admin" required />
+
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" placeholder="••••••••" required />
+
+      <button type="submit">Đăng nhập</button>
+      <div id="message" class="msg"></div>
+    </form>
+
+    <div class="links">
+      <a href="/">Về trang chủ</a>
+      <a href="/admin.html">Đi tới Admin</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      message.className = 'msg';
+      message.textContent = 'Đang đăng nhập...';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Đăng nhập thất bại');
+        }
+
+        localStorage.setItem('mail_token', data.token);
+        localStorage.setItem('mail_role', data.role);
+
+        message.className = 'msg ok';
+        message.textContent = `Đăng nhập thành công (${data.role}).`;
+
+        setTimeout(() => {
+          if (data.role === 'admin') {
+            window.location.href = '/admin.html';
+            return;
+          }
+          window.location.href = '/';
+        }, 600);
+      } catch (error) {
+        message.className = 'msg error';
+        message.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

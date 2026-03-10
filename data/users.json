@@ -1,0 +1,21 @@
+[
+  {
+    "id": "u-admin",
+    "username": "admin",
+    "password": "admin123",
+    "role": "admin"
+  },
+  {
+    "id": "u-basic",
+    "username": "basic",
+    "password": "basic123",
+    "role": "basic"
+  },
+  {
+    "id": "u-premium",
+    "username": "premium",
+    "password": "premium123",
+    "role": "premium"
+  },
+  { "id": "u-vip", "username": "vip", "password": "vip123", "role": "vip" }
+]

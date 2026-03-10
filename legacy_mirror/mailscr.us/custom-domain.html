@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from mailscr.us/custom-domain.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Custom Domain - Mailscr.us</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM0OThkYiIvPgo8cGF0aCBkPSJtNiA5aDIwdjE0SDZ6IiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Im02IDlsMTAgN0wyNiA5IiBzdHJva2U9IiMzNDk4ZGIiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9IiMzNDk4ZGIiLz4KPHBhdGggZD0ibTMwIDUwaDEyMHY4MEgzMHoiIGZpbGw9IiNmZmYiLz4KPHBhdGggZD0ibTMwIDUwbDYwIDQwTDE1MCA1MCIgc3Ryb2tlPSIjMzQ5OGRiIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiLz4KPC9zdmc+">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme Colors */
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --primary-light: #5dade2;
+            --secondary: #f97316;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            
+            /* Light Theme Background */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-elevated: #ffffff;
+            --bg-overlay: rgba(15, 23, 42, 0.05);
+            
+            /* Light Theme Text */
+            --text-primary: #2c3e50;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --text-inverse: #ffffff;
+            
+            /* Light Theme Borders */
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --border-focus: var(--primary);
+            
+            /* Light Theme Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            /* Light Theme Glass */
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            
+            /* Light Theme Gradients */
+            --gradient-bg: linear-gradient(135deg, #e0eafc, #cfdef3);
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-light));
+            --gradient-secondary: linear-gradient(135deg, var(--secondary), #fb923c);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Background */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-elevated: #1e293b;
+            --bg-overlay: rgba(255, 255, 255, 0.05);
+            
+            /* Dark Theme Text */
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-inverse: #0f172a;
+            
+            /* Dark Theme Borders */
+            --border-primary: #334155;
+            --border-secondary: #475569;
+            --border-focus: var(--primary-light);
+            
+            /* Dark Theme Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+            
+            /* Dark Theme Glass */
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(148, 163, 184, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            
+            /* Dark Theme Gradients */
+            --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+
+        [data-theme="dark"] .logo .mail {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .logo .scr {
+            color: #93c5fd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1200px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo .mail {
+            color: #154360;
+            font-size: 1.6em;
+            transition: color 0.3s ease;
+        }
+
+        .logo .scr {
+            color: #5dade2;
+            font-size: 1.8em;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-overlay);
+            transform: translateY(-1px);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            display: flex;
+            background: var(--bg-overlay);
+            border-radius: 12px;
+            padding: 4px;
+            position: relative;
+        }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .theme-btn.active {
+            color: var(--text-primary);
+        }
+
+        .theme-indicator {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(33.333% - 4px);
+            height: calc(100% - 8px);
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            z-index: 1;
+        }
+
+        .theme-indicator.auto { transform: translateX(0); }
+        .theme-indicator.light { transform: translateX(100%); }
+        .theme-indicator.dark { transform: translateX(200%); }
+
+        .language-switcher {
+            display: flex;
+            background: var(--bg-overlay);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: var(--bg-overlay);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--glass-shadow);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-primary);
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .alert-warning {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            color: var(--warning);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .alert-info {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            color: var(--primary);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        /* Steps */
+        .step {
+            background: var(--bg-overlay);
+            border-left: 4px solid var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Code block */
+        .code-block {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 16px 0;
+            color: var(--text-primary);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        th {
+            background: var(--bg-overlay);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Verification result */
+        .verification-result {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .verification-result.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .verification-result.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .verification-result.info {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            color: var(--primary);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        .slide-up {
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Theme transition */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                left: 20px;
+                right: 20px;
+                width: calc(100% - 40px);
+                transform: none;
+                flex-direction: column;
+                gap: 12px;
+                padding: 20px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .theme-switcher {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                margin-top: 160px;
+                padding: 0 16px;
+            }
+
+            .glass-card {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+    <!-- Navigation -->
+    <nav class="nav fade-in">
+        <div class="logo" onclick="goHome()">
+            <span class="mail">Mail</span><span class="scr">scr.us</span>
+        </div>
+        <div class="nav-links">
+            <!-- Theme Switcher -->
+            <div class="theme-switcher">
+                <div class="theme-indicator light" id="themeIndicator"></div>
+                <button class="theme-btn" data-theme="auto" onclick="setTheme('auto')">
+                    🌓 Auto
+                </button>
+                <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                    ☀️ Light
+                </button>
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                    🌙 Dark
+                </button>
+            </div>
+            
+            <div class="language-switcher">
+                <button id="langEn" class="lang-btn active" onclick="changeLanguage('en')">🇺🇸 EN</button>
+                <button id="langVi" class="lang-btn" onclick="changeLanguage('vi')">🇻🇳 VI</button>
+            </div>
+            
+            <a href="index.html" class="nav-link">
+                <span>🏠</span>
+                <span data-translate="nav_home">Home</span>
+            </a>
+            <a href="api-docs.html" class="nav-link">
+                <span>🔧</span>
+                <span data-translate="nav_api">API</span>
+            </a>
+            <a href="contact.html" class="nav-link">
+                <span>💬</span>
+                <span data-translate="nav_contact">Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero slide-up">
+            <h1 data-translate="page_title">Add Custom Domain</h1>
+        </div>
+
+        <div class="glass-card slide-up">
+            <div class="alert alert-warning">
+                <span>⚠️</span>
+                <div>
+                    <h3 data-translate="important_notice">Important Notice</h3>
+                    <p data-translate="notice_text">To use your custom domain for temporary email, you need to configure DNS records properly. This process requires access to your domain's DNS settings.</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="domainInput" data-translate="domain_label">Your Domain Name:</label>
+                <input type="text" id="domainInput" class="input" data-translate-placeholder="domain_placeholder" placeholder="example.com" />
+                
+                <div class="alert alert-info" style="margin-top: 16px">
+                    <span>🔒</span>
+                    <div>
+                        <div class="toggle-text" data-translate="privacy_notice">Privacy Notice</div>
+                        <div class="toggle-description" data-translate="privacy_desc">Your domain will be added as a private domain and won't appear in the public domain list</div>
+                    </div>
+                </div>
+                
+                <button onclick="verifyDomain()" class="btn btn-primary" style="margin-top: 16px" data-translate="verify_btn">Verify Domain</button>
+                <div id="verificationResult" class="verification-result"></div>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="setup_instructions">📋 Setup Instructions</h2>
+
+            <div class="step">
+                <h3 data-translate="step1_title">Step 1: Add MX Record</h3>
+                <p data-translate="step1_desc">Add the following MX record to your domain's DNS settings:</p>
+                <table>
+                    <tr>
+                        <th data-translate="table_type">Type</th>
+                        <th data-translate="table_name">Name</th>
+                        <th data-translate="table_value">Value</th>
+                        <th data-translate="table_priority">Priority</th>
+                        <th data-translate="table_ttl">TTL</th>
+                    </tr>
+                    <tr>
+                        <td>MX</td>
+                        <td data-translate="table_domain">@ (or your domain)</td>
+                        <td>mail.mailscr.us</td>
+                        <td>10</td>
+                        <td>3600</td>
+                    </tr>
+                </table>
+                <div class="code-block">
+Type: MX
+Name: @
+Value: mail.mailscr.us
+Priority: 10
+TTL: 3600
+                </div>
+                <div class="alert alert-success">
+                    <span>🎉</span>
+                    <div>
+                        <h3 data-translate="success_title">That's it!</h3>
+                        <p data-translate="success_desc">This is all you need! Once the DNS propagates (usually within a few hours), your domain will be ready to receive temporary emails.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3 data-translate="step2_title">Step 2: Wait for DNS Propagation</h3>
+                <p data-translate="step2_desc">DNS changes can take anywhere from a few minutes to 48 hours to propagate worldwide, but usually it's much faster. You can check the status using the verification tool above.</p>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="common_providers">🔍 Common DNS Providers</h2>
+
+            <div class="step">
+                <h3>Cloudflare</h3>
+                <ol>
+                    <li data-translate="cloudflare_step1">Go to your Cloudflare dashboard</li>
+                    <li data-translate="cloudflare_step2">Select your domain</li>
+                    <li data-translate="cloudflare_step3">Go to DNS section</li>
+                    <li data-translate="cloudflare_step4">Click "Add record"</li>
+                    <li data-translate="cloudflare_step5">Select MX type and add the record above</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h3>NameCheap</h3>
+                <ol>
+                    <li data-translate="namecheap_step1">Log into your NameCheap account</li>
+                    <li data-translate="namecheap_step2">Go to Domain List</li>
+                    <li data-translate="namecheap_step3">Click "Manage" next to your domain</li>
+                    <li data-translate="namecheap_step4">Go to "Advanced DNS" tab</li>
+                    <li data-translate="namecheap_step5">Add the MX record as shown above</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h3>GoDaddy</h3>
+                <ol>
+                    <li data-translate="godaddy_step1">Log into your GoDaddy account</li>
+                    <li data-translate="godaddy_step2">Go to your domain settings</li>
+                    <li data-translate="godaddy_step3">Find "DNS Management"</li>
+                    <li data-translate="godaddy_step4">Add the MX record with the details above</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="verification">✅ Verification</h2>
+            <p data-translate="verification_desc">Once you've added the DNS records, use our verification tool above to check if your domain is properly configured. The system will automatically detect your domain once the MX records are properly set up.</p>
+
+            <div class="alert alert-success">
+                <span>🎉</span>
+                <div>
+                    <h3 data-translate="what_next">What happens next?</h3>
+                    <p data-translate="what_next_desc">After adding the MX record and waiting for DNS propagation:</p>
+                    <ul>
+                        <li data-translate="next_step1">Your domain will be automatically detected by our system</li>
+                        <li data-translate="next_step2">Emails sent to any address @yourdomain.com will be received</li>
+                        <li data-translate="next_step3">You can start using addresses like test@yourdomain.com immediately</li>
+                        <li data-translate="next_step4">All emails are automatically deleted after 7 days for privacy</li>
+                        <li data-translate="next_step5">No registration or setup required - it just works!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="troubleshooting">🛠️ Troubleshooting</h2>
+            
+            <div class="step">
+                <h3 data-translate="common_issues">Common Issues:</h3>
+                <ul>
+                    <li><strong data-translate="issue1_title">MX record not found:</strong> <span data-translate="issue1_desc">Double-check your DNS settings and wait for propagation</span></li>
+                    <li><strong data-translate="issue2_title">Wrong MX value:</strong> <span data-translate="issue2_desc">Ensure you're pointing to "mail.mailscr.us" (not anything else)</span></li>
+                    <li><strong data-translate="issue3_title">Priority issues:</strong> <span data-translate="issue3_desc">Use priority 10 for the MX record</span></li>
+                    <li><strong data-translate="issue4_title">DNS propagation slow:</strong> <span data-translate="issue4_desc">Try lowering TTL to 300 for faster updates</span></li>
+                    <li><strong data-translate="issue5_title">Still not working:</strong> <span data-translate="issue5_desc">Wait up to 48 hours for global DNS propagation</span></li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <span>⚠️</span>
+                <div>
+                    <h3 data-translate="important_notes">Important Notes</h3>
+                    <ul>
+                        <li data-translate="note1">This service is for temporary email only - emails are deleted after 7 days</li>
+                        <li data-translate="note2">Do not use for important communications</li>
+                        <li data-translate="note3">Anyone can access emails sent to your domain through our website</li>
+                        <li data-translate="note4">This is a public service - treat all emails as public</li>
+                        <li data-translate="note5">Only one DNS record needed - don't overthink it!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="need_help">📞 Need Help?</h2>
+            <p data-translate="help_desc">If you're having trouble setting up your domain, please <a href="contact.html" style="color: var(--primary); text-decoration: none; font-weight: 500;">contact our support team</a>. Include your domain name and the DNS provider you're using.</p>
+        </div>
+    </div>
+
+    <script>
+        // Theme system
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let autoThemeInterval;
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+            
+            // Update indicator position
+            const indicator = document.getElementById('themeIndicator');
+            indicator.className = `theme-indicator ${theme}`;
+            
+            if (theme === 'auto') {
+                startAutoTheme();
+            } else {
+                stopAutoTheme();
+                document.body.setAttribute('data-theme', theme);
+            }
+        }
+
+        function startAutoTheme() {
+            function updateAutoTheme() {
+                const hour = new Date().getHours();
+                const isNight = hour >= 19 || hour < 7;
+                document.body.setAttribute('data-theme', isNight ? 'dark' : 'light');
+            }
+            
+            updateAutoTheme();
+            autoThemeInterval = setInterval(updateAutoTheme, 60000);
+        }
+
+        function stopAutoTheme() {
+            if (autoThemeInterval) {
+                clearInterval(autoThemeInterval);
+                autoThemeInterval = null;
+            }
+        }
+
+        // Language translations
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_api: "API",
+                nav_contact: "Contact",
+                page_title: "Add Custom Domain",
+                important_notice: "Important Notice",
+                notice_text: "To use your custom domain for temporary email, you need to configure DNS records properly. This process requires access to your domain's DNS settings.",
+                domain_label: "Your Domain Name:",
+                domain_placeholder: "example.com",
+                privacy_notice: "Privacy Notice",
+                privacy_desc: "Your domain will be added as a private domain and won't appear in the public domain list",
+                verify_btn: "Verify Domain",
+                setup_instructions: "📋 Setup Instructions",
+                step1_title: "Step 1: Add MX Record",
+                step1_desc: "Add the following MX record to your domain's DNS settings:",
+                table_type: "Type",
+                table_name: "Name",
+                table_value: "Value",
+                table_priority: "Priority",
+                table_ttl: "TTL",
+                table_domain: "@ (or your domain)",
+                success_title: "That's it!",
+                success_desc: "This is all you need! Once the DNS propagates (usually within a few hours), your domain will be ready to receive temporary emails.",
+                step2_title: "Step 2: Wait for DNS Propagation",
+                step2_desc: "DNS changes can take anywhere from a few minutes to 48 hours to propagate worldwide, but usually it's much faster. You can check the status using the verification tool above.",
+                common_providers: "🔍 Common DNS Providers",
+                cloudflare_step1: "Go to your Cloudflare dashboard",
+                cloudflare_step2: "Select your domain",
+                cloudflare_step3: "Go to DNS section",
+                cloudflare_step4: "Click \"Add record\"",
+                cloudflare_step5: "Select MX type and add the record above",
+                namecheap_step1: "Log into your NameCheap account",
+                namecheap_step2: "Go to Domain List",
+                namecheap_step3: "Click \"Manage\" next to your domain",
+                namecheap_step4: "Go to \"Advanced DNS\" tab",
+                namecheap_step5: "Add the MX record as shown above",
+                godaddy_step1: "Log into your GoDaddy account",
+                godaddy_step2: "Go to your domain settings",
+                godaddy_step3: "Find \"DNS Management\"",
+                godaddy_step4: "Add the MX record with the details above",
+                verification: "✅ Verification",
+                verification_desc: "Once you've added the DNS records, use our verification tool above to check if your domain is properly configured. The system will automatically detect your domain once the MX records are properly set up.",
+                what_next: "What happens next?",
+                what_next_desc: "After adding the MX record and waiting for DNS propagation:",
+                next_step1: "Your domain will be automatically detected by our system",
+                next_step2: "Emails sent to any address @yourdomain.com will be received",
+                next_step3: "You can start using addresses like test@yourdomain.com immediately",
+                next_step4: "All emails are automatically deleted after 7 days for privacy",
+                next_step5: "No registration or setup required - it just works!",
+                troubleshooting: "🛠️ Troubleshooting",
+                common_issues: "Common Issues:",
+                issue1_title: "MX record not found:",
+                issue1_desc: "Double-check your DNS settings and wait for propagation",
+                issue2_title: "Wrong MX value:",
+                issue2_desc: "Ensure you're pointing to \"mail.mailscr.us\" (not anything else)",
+                issue3_title: "Priority issues:",
+                issue3_desc: "Use priority 10 for the MX record",
+                issue4_title: "DNS propagation slow:",
+                issue4_desc: "Try lowering TTL to 300 for faster updates",
+                issue5_title: "Still not working:",
+                issue5_desc: "Wait up to 48 hours for global DNS propagation",
+                important_notes: "Important Notes",
+                note1: "This service is for temporary email only - emails are deleted after 7 days",
+                note2: "Do not use for important communications",
+                note3: "Anyone can access emails sent to your domain through our website",
+                note4: "This is a public service - treat all emails as public",
+                note5: "Only one DNS record needed - don't overthink it!",
+                need_help: "📞 Need Help?",
+                help_desc: "If you're having trouble setting up your domain, please contact our support team. Include your domain name and the DNS provider you're using.",
+                checking_domain: "Checking domain...",
+                domain_success: "✅ Success! Domain {domain} is properly configured and ready to use.",
+                domain_added: "✅ Domain {domain} has been added to the system and is ready to use!",
+                domain_added_hidden: "✅ Domain {domain} has been added as a private domain. It won't appear in public lists.",
+                domain_error: "❌ Domain {domain} is not properly configured. Please check your MX records and try again.",
+                check_error: "Error checking domain. Please try again later.",
+                enter_domain: "Please enter a domain name"
+            },
+            vi: {
+                nav_home: "Trang chủ",
+                nav_api: "API",
+                nav_contact: "Liên hệ",
+                page_title: "Thêm Domain Tùy chỉnh",
+                important_notice: "Thông báo Quan trọng",
+                notice_text: "Để sử dụng domain tùy chỉnh cho email tạm thời, bạn cần cấu hình DNS records đúng cách. Quá trình này yêu cầu truy cập vào cài đặt DNS của domain.",
+                domain_label: "Tên Domain của bạn:",
+                domain_placeholder: "example.com",
+                privacy_notice: "Thông báo Riêng tư",
+                privacy_desc: "Domain của bạn sẽ được thêm như domain riêng tư và không xuất hiện trong danh sách công khai",
+                verify_btn: "Xác minh Domain",
+                setup_instructions: "📋 Hướng dẫn Thiết lập",
+                step1_title: "Bước 1: Thêm MX Record",
+                step1_desc: "Thêm MX record sau vào cài đặt DNS của domain:",
+                table_type: "Loại",
+                table_name: "Tên",
+                table_value: "Giá trị",
+                table_priority: "Ưu tiên",
+                table_ttl: "TTL",
+                table_domain: "@ (hoặc domain của bạn)",
+                success_title: "Vậy là xong!",
+                success_desc: "Đây là tất cả những gì bạn cần! Khi DNS lan truyền (thường trong vài giờ), domain của bạn sẽ sẵn sàng nhận email tạm thời.",
+                step2_title: "Bước 2: Chờ DNS Lan truyền",
+                step2_desc: "Thay đổi DNS có thể mất từ vài phút đến 48 giờ để lan truyền toàn cầu, nhưng thường nhanh hơn nhiều. Bạn có thể kiểm tra trạng thái bằng công cụ xác minh ở trên.",
+                common_providers: "🔍 Nhà cung cấp DNS Phổ biến",
+                cloudflare_step1: "Vào dashboard Cloudflare của bạn",
+                cloudflare_step2: "Chọn domain của bạn",
+                cloudflare_step3: "Vào phần DNS",
+                cloudflare_step4: "Nhấn \"Add record\"",
+                cloudflare_step5: "Chọn loại MX và thêm record ở trên",
+                namecheap_step1: "Đăng nhập vào tài khoản NameCheap",
+                namecheap_step2: "Vào Domain List",
+                namecheap_step3: "Nhấn \"Manage\" bên cạnh domain của bạn",
+                namecheap_step4: "Vào tab \"Advanced DNS\"",
+                namecheap_step5: "Thêm MX record như hiển thị ở trên",
+                godaddy_step1: "Đăng nhập vào tài khoản GoDaddy",
+                godaddy_step2: "Vào cài đặt domain của bạn",
+                godaddy_step3: "Tìm \"DNS Management\"",
+                godaddy_step4: "Thêm MX record với thông tin ở trên",
+                verification: "✅ Xác minh",
+                verification_desc: "Sau khi đã thêm DNS records, sử dụng công cụ xác minh ở trên để kiểm tra xem domain của bạn đã được cấu hình đúng chưa. Hệ thống sẽ tự động phát hiện domain khi MX records được thiết lập đúng.",
+                what_next: "Điều gì xảy ra tiếp theo?",
+                what_next_desc: "Sau khi thêm MX record và chờ DNS lan truyền:",
+                next_step1: "Domain của bạn sẽ được hệ thống tự động phát hiện",
+                next_step2: "Email gửi đến bất kỳ địa chỉ nào @yourdomain.com sẽ được nhận",
+                next_step3: "Bạn có thể bắt đầu sử dụng địa chỉ như test@yourdomain.com ngay lập tức",
+                next_step4: "Tất cả email sẽ tự động bị xóa sau 7 ngày để bảo vệ quyền riêng tư",
+                next_step5: "Không cần đăng ký hay thiết lập - nó hoạt động ngay!",
+                troubleshooting: "🛠️ Khắc phục Sự cố",
+                common_issues: "Vấn đề Thường gặp:",
+                issue1_title: "Không tìm thấy MX record:",
+                issue1_desc: "Kiểm tra lại cài đặt DNS và chờ lan truyền",
+                issue2_title: "Giá trị MX sai:",
+                issue2_desc: "Đảm bảo bạn đang trỏ đến \"mail.mailscr.us\" (không phải gì khác)",
+                issue3_title: "Vấn đề về Priority:",
+                issue3_desc: "Sử dụng priority 10 cho MX record",
+                issue4_title: "DNS lan truyền chậm:",
+                issue4_desc: "Thử giảm TTL xuống 300 để cập nhật nhanh hơn",
+                issue5_title: "Vẫn không hoạt động:",
+                issue5_desc: "Chờ đến 48 giờ để DNS lan truyền toàn cầu",
+                important_notes: "Ghi chú Quan trọng",
+                note1: "Dịch vụ này chỉ dành cho email tạm thời - email sẽ bị xóa sau 7 ngày",
+                note2: "Không sử dụng cho các giao tiếp quan trọng",
+                note3: "Bất kỳ ai cũng có thể truy cập email gửi đến domain của bạn qua website",
+                note4: "Đây là dịch vụ công cộng - coi tất cả email như công khai",
+                note5: "Chỉ cần một DNS record - đừng nghĩ quá phức tạp!",
+                need_help: "📞 Cần Trợ giúp?",
+                help_desc: "Nếu bạn gặp khó khăn trong việc thiết lập domain, vui lòng liên hệ với đội hỗ trợ của chúng tôi. Bao gồm tên domain và nhà cung cấp DNS bạn đang sử dụng.",
+                checking_domain: "Đang kiểm tra domain...",
+                domain_success: "✅ Thành công! Domain {domain} đã được cấu hình đúng và sẵn sàng sử dụng.",
+                domain_added: "✅ Domain {domain} đã được thêm vào hệ thống và sẵn sàng sử dụng!",
+                domain_added_hidden: "✅ Domain {domain} đã được thêm như domain riêng tư. Nó sẽ không xuất hiện trong danh sách công khai.",
+                domain_error: "❌ Domain {domain} chưa được cấu hình đúng. Vui lòng kiểm tra MX records và thử lại.",
+                check_error: "Lỗi khi kiểm tra domain. Vui lòng thử lại sau.",
+                enter_domain: "Vui lòng nhập tên domain"
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('language') || 'en';
+
+        // Language functions
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+            document.getElementById('langVi').classList.toggle('active', lang === 'vi');
+            
+            updateTranslations();
+        }
+
+        function updateTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    el.textContent = translations[currentLanguage][key];
+                }
+            });
+            
+            const placeholderElements = document.querySelectorAll('[data-translate-placeholder]');
+            placeholderElements.forEach(el => {
+                const key = el.getAttribute('data-translate-placeholder');
+                if (translations[currentLanguage][key]) {
+                    el.placeholder = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function t(key) {
+            return translations[currentLanguage][key] || key;
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        async function verifyDomain() {
+            const domain = document.getElementById('domainInput').value.trim();
+            const resultDiv = document.getElementById('verificationResult');
+            
+            if (!domain) {
+                showResult(t('enter_domain'), 'error');
+                return;
+            }
+
+            showResult(t('checking_domain'), 'info');
+
+            try {
+                const response = await fetch(`/api/check-mx/${domain}`);
+                const data = await response.json();
+
+                if (data.result === 'online') {
+                    showResult(t('domain_success').replace('{domain}', domain), 'success');
+                    
+                    // Add domain as private (show_on_homepage=false)
+                    const addResponse = await fetch(`/api/add-domain/${domain}?show_on_homepage=false`, {
+                        method: 'POST'
+                    });
+                    const addData = await addResponse.json();
+                    
+                    if (addResponse.ok) {
+                        showResult(t('domain_added_hidden').replace('{domain}', domain), 'success');
+                    }
+                } else {
+                    showResult(t('domain_error').replace('{domain}', domain), 'error');
+                }
+            } catch (error) {
+                console.error('Error verifying domain:', error);
+                showResult(t('check_error'), 'error');
+            }
+        }
+
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('verificationResult');
+            resultDiv.textContent = message;
+            resultDiv.className = `verification-result ${type}`;
+            resultDiv.style.display = 'block';
+        }
+
+        document.getElementById('domainInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyDomain();
+            }
+        });
+
+        // Initialize
+        window.onload = () => {
+            setTheme(currentTheme);
+            changeLanguage(currentLanguage);
+        };
+    </script>
+</body>
+
+<!-- Mirrored from mailscr.us/custom-domain.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
+</html>

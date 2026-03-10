@@ -1,0 +1,7 @@
+[
+  { "name": "mail1.com", "tier": "basic", "public": true },
+  { "name": "mail2.com", "tier": "basic", "public": true },
+  { "name": "hidden1.com", "tier": "premium", "public": false },
+  { "name": "hidden2.com", "tier": "premium", "public": false },
+  { "name": "vip1.com", "tier": "vip", "public": false }
+]
