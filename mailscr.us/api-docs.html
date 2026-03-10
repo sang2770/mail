@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from mailscr.us/api-docs.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Mailscr.us</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM0OThkYiIvPgo8cGF0aCBkPSJtNiA5aDIwdjE0SDZ6IiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Im02IDlsMTAgN0wyNiA5IiBzdHJva2U9IiMzNDk4ZGIiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9IiMzNDk4ZGIiLz4KPHBhdGggZD0ibTMwIDUwaDEyMHY4MEgzMHoiIGZpbGw9IiNmZmYiLz4KPHBhdGggZD0ibTMwIDUwbDYwIDQwTDE1MCA1MCIgc3Ryb2tlPSIjMzQ5OGRiIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiLz4KPC9zdmc+">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme Colors */
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --primary-light: #5dade2;
+            --secondary: #f97316;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            
+            /* Light Theme Background */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-elevated: #ffffff;
+            --bg-overlay: rgba(15, 23, 42, 0.05);
+            
+            /* Light Theme Text */
+            --text-primary: #2c3e50;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --text-inverse: #ffffff;
+            
+            /* Light Theme Borders */
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --border-focus: var(--primary);
+            
+            /* Light Theme Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            /* Light Theme Glass */
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            
+            /* Light Theme Gradients */
+            --gradient-bg: linear-gradient(135deg, #e0eafc, #cfdef3);
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-light));
+            --gradient-secondary: linear-gradient(135deg, var(--secondary), #fb923c);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Background */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-elevated: #1e293b;
+            --bg-overlay: rgba(255, 255, 255, 0.05);
+            
+            /* Dark Theme Text */
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-inverse: #0f172a;
+            
+            /* Dark Theme Borders */
+            --border-primary: #334155;
+            --border-secondary: #475569;
+            --border-focus: var(--primary-light);
+            
+            /* Dark Theme Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+            
+            /* Dark Theme Glass */
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(148, 163, 184, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            
+            /* Dark Theme Gradients */
+            --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+
+        [data-theme="dark"] .logo .mail {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .logo .scr {
+            color: #93c5fd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1200px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo .mail {
+            color: #154360;
+            font-size: 1.6em;
+            transition: color 0.3s ease;
+        }
+
+        .logo .scr {
+            color: #5dade2;
+            font-size: 1.8em;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-overlay);
+            transform: translateY(-1px);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            display: flex;
+            background: var(--bg-overlay);
+            border-radius: 12px;
+            padding: 4px;
+            position: relative;
+        }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .theme-btn.active {
+            color: var(--text-primary);
+        }
+
+        .theme-indicator {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(33.333% - 4px);
+            height: calc(100% - 8px);
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            z-index: 1;
+        }
+
+        .theme-indicator.auto { transform: translateX(0); }
+        .theme-indicator.light { transform: translateX(100%); }
+        .theme-indicator.dark { transform: translateX(200%); }
+
+        .language-switcher {
+            display: flex;
+            background: var(--bg-overlay);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: var(--bg-overlay);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--glass-shadow);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Intro card */
+        .intro-card {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            color: var(--primary);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .intro-card h3 {
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .intro-card p {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .intro-card code {
+            background: var(--bg-elevated);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        /* Endpoint */
+        .endpoint {
+            background: var(--bg-overlay);
+            border-left: 4px solid var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .endpoint:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .endpoint h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .method {
+            display: inline-flex;
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .method.get { background: var(--success); }
+        .method.post { background: var(--secondary); }
+        .method.delete { background: var(--error); }
+
+        /* Code block */
+        .code-block {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 16px 0;
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        th {
+            background: var(--bg-overlay);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Response codes */
+        .response-code {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .response-code.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .response-code.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        /* Lists */
+        ul {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Links */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        .slide-up {
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Theme transition */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                left: 20px;
+                right: 20px;
+                width: calc(100% - 40px);
+                transform: none;
+                flex-direction: column;
+                gap: 12px;
+                padding: 20px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .theme-switcher {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                margin-top: 160px;
+                padding: 0 16px;
+            }
+
+            .glass-card {
+                padding: 20px;
+            }
+
+            .code-block {
+                font-size: 12px;
+                padding: 16px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+    <!-- Navigation -->
+    <nav class="nav fade-in">
+        <div class="logo" onclick="goHome()">
+            <span class="mail">Mail</span><span class="scr">scr.us</span>
+        </div>
+        <div class="nav-links">
+            <!-- Theme Switcher -->
+            <div class="theme-switcher">
+                <div class="theme-indicator light" id="themeIndicator"></div>
+                <button class="theme-btn" data-theme="auto" onclick="setTheme('auto')">
+                    🌓 Auto
+                </button>
+                <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                    ☀️ Light
+                </button>
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                    🌙 Dark
+                </button>
+            </div>
+            
+            <div class="language-switcher">
+                <button id="langEn" class="lang-btn active" onclick="changeLanguage('en')">🇺🇸 EN</button>
+                <button id="langVi" class="lang-btn" onclick="changeLanguage('vi')">🇻🇳 VI</button>
+            </div>
+            
+            <a href="index.html" class="nav-link">
+                <span>🏠</span>
+                <span data-translate="nav_home">Home</span>
+            </a>
+            <a href="custom-domain.html" class="nav-link">
+                <span>🌐</span>
+                <span data-translate="nav_domain">Domain</span>
+            </a>
+            <a href="contact.html" class="nav-link">
+                <span>💬</span>
+                <span data-translate="nav_contact">Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero slide-up">
+            <h1 data-translate="page_title">Mailscr API Documentation</h1>
+        </div>
+
+        <div class="glass-card slide-up">
+            <div class="intro-card">
+                <h3 data-translate="welcome">🚀 Welcome to Mailscr API</h3>
+                <p data-translate="intro_desc">Our API allows you to integrate temporary email functionality into your applications. Create disposable email addresses, receive emails, and manage domains programmatically.</p>
+                <p><strong data-translate="base_url">Base URL:</strong> <code>https://mailscr.us/api</code></p>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="email_management">📧 Email Management</h2>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span data-translate="list_emails">List Emails</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/email/{domain}/{user}/</code></p>
+                <p data-translate="list_emails_desc">Retrieve all emails for a specific user with pagination support.</p>
+                
+                <h4 data-translate="parameters">Parameters:</h4>
+                <table>
+                    <tr>
+                        <th data-translate="parameter">Parameter</th>
+                        <th data-translate="type">Type</th>
+                        <th data-translate="description">Description</th>
+                        <th data-translate="default">Default</th>
+                    </tr>
+                    <tr>
+                        <td>domain</td>
+                        <td>string</td>
+                        <td data-translate="domain_desc">Email domain</td>
+                        <td data-translate="required">Required</td>
+                    </tr>
+                    <tr>
+                        <td>user</td>
+                        <td>string</td>
+                        <td data-translate="user_desc">Username part of email</td>
+                        <td data-translate="required">Required</td>
+                    </tr>
+                    <tr>
+                        <td>page</td>
+                        <td>integer</td>
+                        <td data-translate="page_desc">Page number</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>limit</td>
+                        <td>integer</td>
+                        <td data-translate="limit_desc">Items per page (1-100)</td>
+                        <td>20</td>
+                    </tr>
+                </table>
+
+                <h4 data-translate="example_request">Example Request:</h4>
+                <div class="code-block">
+curl -X GET "https://mailscr.us/api/email/example.com/john/?page=1&limit=20"
+                </div>
+
+                <h4 data-translate="response">Response:</h4>
+                <div class="code-block">
+{
+  "emails": [
+    {
+      "id": 123,
+      "subject": "Welcome to our service",
+      "sender": "noreply@service.com",
+      "date": "2025-07-11T10:30:00Z",
+      "body": "Plain text content",
+      "html_body": "&lt;h1&gt;HTML content&lt;/h1&gt;",
+      "has_attachments": false
+    }
+  ],
+  "total": 5,
+  "page": 1,
+  "limit": 20,
+  "has_more": false
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span data-translate="read_email">Read Single Email</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/email/{domain}/{user}/{email_id}</code></p>
+                <p data-translate="read_email_desc">Retrieve a specific email by ID.</p>
+
+                <h4 data-translate="example_request">Example Request:</h4>
+                <div class="code-block">
+curl -X GET "https://mailscr.us/api/email/example.com/john/123"
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method delete">DELETE</span>
+                    <span data-translate="delete_email">Delete Email</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/email/{domain}/{user}/{email_id}</code></p>
+                <p data-translate="delete_email_desc">Delete a specific email.</p>
+
+                <h4 data-translate="example_request">Example Request:</h4>
+                <div class="code-block">
+curl -X DELETE "https://mailscr.us/api/email/example.com/john/123"
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span data-translate="save_email">Save Email</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/save-email/{domain}/{user}/</code></p>
+                <p data-translate="save_email_desc">Save a new email (typically used by mail server).</p>
+
+                <h4 data-translate="request_body">Request Body:</h4>
+                <div class="code-block">
+{
+  "subject": "Email subject",
+  "sender": "sender@example.com",
+  "date": "2025-07-11T10:30:00Z",
+  "body": "Plain text content",
+  "html_body": "&lt;h1&gt;HTML content&lt;/h1&gt;",
+  "has_attachments": false
+}
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="domain_management">🌐 Domain Management</h2>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span data-translate="list_domains">List All Domains</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/domains/</code></p>
+                <p data-translate="list_domains_desc">Get a list of all available domains.</p>
+
+                <h4 data-translate="example_response">Example Response:</h4>
+                <div class="code-block">
+["example.com", "temp-mail.io", "disposable.email"]
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span data-translate="random_domains">Get Random Domains</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/random-domains/</code></p>
+                <p data-translate="random_domains_desc">Get a random selection of online domains.</p>
+
+                <h4 data-translate="parameters">Parameters:</h4>
+                <table>
+                    <tr>
+                        <th data-translate="parameter">Parameter</th>
+                        <th data-translate="type">Type</th>
+                        <th data-translate="description">Description</th>
+                        <th data-translate="default">Default</th>
+                    </tr>
+                    <tr>
+                        <td>page</td>
+                        <td>integer</td>
+                        <td data-translate="page_desc">Page number</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>limit</td>
+                        <td>integer</td>
+                        <td data-translate="domains_limit_desc">Number of domains (1-50)</td>
+                        <td>20</td>
+                    </tr>
+                </table>
+
+                <h4 data-translate="example_response">Example Response:</h4>
+                <div class="code-block">
+{
+  "domains": ["example.com", "temp-mail.io"],
+  "total": 2
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span data-translate="add_domain">Add Domain</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/add-domain/{domain}</code></p>
+                <p data-translate="add_domain_desc">Add a new domain to the system.</p>
+
+                <h4 data-translate="example_request">Example Request:</h4>
+                <div class="code-block">
+curl -X POST "https://mailscr.us/api/add-domain/mydomain.com"
+                </div>
+
+                <h4 data-translate="response">Response:</h4>
+                <div class="code-block">
+{
+  "status": "added",
+  "domain": "mydomain.com",
+  "is_online": true
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span data-translate="check_mx">Check Domain MX Records</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/check-mx/{domain}</code></p>
+                <p data-translate="check_mx_desc">Check if a domain has valid MX records pointing to our mail server.</p>
+
+                <h4 data-translate="example_response">Example Response:</h4>
+                <div class="code-block">
+{
+  "result": "online"
+}
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="utility_endpoints">🔧 Utility Endpoints</h2>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span data-translate="refresh_domains">Refresh Domain Status</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/refresh-domains/</code></p>
+                <p data-translate="refresh_domains_desc">Force refresh all domain statuses.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3>
+                    <span class="method delete">DELETE</span>
+                    <span data-translate="cleanup_emails">Cleanup Old Emails</span>
+                </h3>
+                <p><strong data-translate="endpoint">Endpoint:</strong> <code>/cleanup-old-emails/</code></p>
+                <p data-translate="cleanup_emails_desc">Remove emails older than 7 days.</p>
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="response_codes">📝 Response Codes</h2>
+
+            <table>
+                <tr>
+                    <th data-translate="code">Code</th>
+                    <th data-translate="description">Description</th>
+                </tr>
+                <tr>
+                    <td><span class="response-code success">200</span></td>
+                    <td data-translate="success">Success</td>
+                </tr>
+                <tr>
+                    <td><span class="response-code error">400</span></td>
+                    <td data-translate="bad_request">Bad Request - Invalid parameters</td>
+                </tr>
+                <tr>
+                    <td><span class="response-code error">404</span></td>
+                    <td data-translate="not_found">Not Found - Resource doesn't exist</td>
+                </tr>
+                <tr>
+                    <td><span class="response-code error">500</span></td>
+                    <td data-translate="server_error">Internal Server Error</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="usage_examples">💡 Usage Examples</h2>
+
+            <h3 data-translate="js_example">JavaScript Example</h3>
+            <div class="code-block">
+// Get emails for user
+async function getEmails(domain, user) {
+    const response = await fetch(`https://mailscr.us/api/email/${domain}/${user}/`);
+    const data = await response.json();
+    return data.emails;
+}
+
+// Add a new domain
+async function addDomain(domain) {
+    const response = await fetch(`https://mailscr.us/api/add-domain/${domain}`, {
+        method: 'POST'
+    });
+    return await response.json();
+}
+            </div>
+
+            <h3 data-translate="python_example">Python Example</h3>
+            <div class="code-block">
+import requests
+
+# Get emails
+def get_emails(domain, user):
+    response = requests.get(f'https://mailscr.us/api/email/{domain}/{user}/')
+    return response.json()
+
+# Add domain
+def add_domain(domain):
+    response = requests.post(f'https://mailscr.us/api/add-domain/{domain}')
+    return response.json()
+            </div>
+        </div>
+
+        <div class="glass-card slide-up">
+            <h2 data-translate="rate_limiting">🔐 Rate Limiting</h2>
+            <p data-translate="rate_limiting_desc">API requests are rate limited to prevent abuse. Current limits:</p>
+            <ul>
+                <li data-translate="rate_limit_1">100 requests per minute per IP</li>
+                <li data-translate="rate_limit_2">1000 requests per hour per IP</li>
+            </ul>
+
+            <h2 data-translate="support" style="margin-top: 32px;">📞 Support</h2>
+            <p data-translate="support_desc">For API support, please <a href="contact.html">contact us</a> or email: support@mailscr.us</p>
+        </div>
+    </div>
+
+    <script>
+        // Theme system
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let autoThemeInterval;
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+            
+            // Update indicator position
+            const indicator = document.getElementById('themeIndicator');
+            indicator.className = `theme-indicator ${theme}`;
+            
+            if (theme === 'auto') {
+                startAutoTheme();
+            } else {
+                stopAutoTheme();
+                document.body.setAttribute('data-theme', theme);
+            }
+        }
+
+        function startAutoTheme() {
+            function updateAutoTheme() {
+                const hour = new Date().getHours();
+                const isNight = hour >= 19 || hour < 7;
+                document.body.setAttribute('data-theme', isNight ? 'dark' : 'light');
+            }
+            
+            updateAutoTheme();
+            autoThemeInterval = setInterval(updateAutoTheme, 60000);
+        }
+
+        function stopAutoTheme() {
+            if (autoThemeInterval) {
+                clearInterval(autoThemeInterval);
+                autoThemeInterval = null;
+            }
+        }
+
+        // Language translations
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_domain: "Domain",
+                nav_contact: "Contact",
+                page_title: "Mailscr API Documentation",
+                welcome: "🚀 Welcome to Mailscr API",
+                intro_desc: "Our API allows you to integrate temporary email functionality into your applications. Create disposable email addresses, receive emails, and manage domains programmatically.",
+                base_url: "Base URL:",
+                email_management: "📧 Email Management",
+                list_emails: "List Emails",
+                endpoint: "Endpoint:",
+                list_emails_desc: "Retrieve all emails for a specific user with pagination support.",
+                parameters: "Parameters:",
+                parameter: "Parameter",
+                type: "Type",
+                description: "Description",
+                default: "Default",
+                domain_desc: "Email domain",
+                user_desc: "Username part of email",
+                required: "Required",
+                page_desc: "Page number",
+                limit_desc: "Items per page (1-100)",
+                example_request: "Example Request:",
+                response: "Response:",
+                read_email: "Read Single Email",
+                read_email_desc: "Retrieve a specific email by ID.",
+                delete_email: "Delete Email",
+                delete_email_desc: "Delete a specific email.",
+                save_email: "Save Email",
+                save_email_desc: "Save a new email (typically used by mail server).",
+                request_body: "Request Body:",
+                domain_management: "🌐 Domain Management",
+                list_domains: "List All Domains",
+                list_domains_desc: "Get a list of all available domains.",
+                example_response: "Example Response:",
+                random_domains: "Get Random Domains",
+                random_domains_desc: "Get a random selection of online domains.",
+                domains_limit_desc: "Number of domains (1-50)",
+                add_domain: "Add Domain",
+                add_domain_desc: "Add a new domain to the system.",
+                check_mx: "Check Domain MX Records",
+                check_mx_desc: "Check if a domain has valid MX records pointing to our mail server.",
+                utility_endpoints: "🔧 Utility Endpoints",
+                refresh_domains: "Refresh Domain Status",
+                refresh_domains_desc: "Force refresh all domain statuses.",
+                cleanup_emails: "Cleanup Old Emails",
+                cleanup_emails_desc: "Remove emails older than 7 days.",
+                response_codes: "📝 Response Codes",
+                code: "Code",
+                success: "Success",
+                bad_request: "Bad Request - Invalid parameters",
+                not_found: "Not Found - Resource doesn't exist",
+                server_error: "Internal Server Error",
+                usage_examples: "💡 Usage Examples",
+                js_example: "JavaScript Example",
+                python_example: "Python Example",
+                rate_limiting: "🔐 Rate Limiting",
+                rate_limiting_desc: "API requests are rate limited to prevent abuse. Current limits:",
+                rate_limit_1: "100 requests per minute per IP",
+                rate_limit_2: "1000 requests per hour per IP",
+                support: "📞 Support",
+                support_desc: "For API support, please contact us or email: support@mailscr.us"
+            },
+            vi: {
+                nav_home: "Trang chủ",
+                nav_domain: "Domain",
+                nav_contact: "Liên hệ",
+                page_title: "Tài liệu API Mailscr",
+                welcome: "🚀 Chào mừng đến với Mailscr API",
+                intro_desc: "API của chúng tôi cho phép bạn tích hợp chức năng email tạm thời vào ứng dụng của mình. Tạo địa chỉ email dùng một lần, nhận email và quản lý domain theo chương trình.",
+                base_url: "URL Cơ sở:",
+                email_management: "📧 Quản lý Email",
+                list_emails: "Danh sách Email",
+                endpoint: "Endpoint:",
+                list_emails_desc: "Lấy tất cả email cho một người dùng cụ thể với hỗ trợ phân trang.",
+                parameters: "Tham số:",
+                parameter: "Tham số",
+                type: "Loại",
+                description: "Mô tả",
+                default: "Mặc định",
+                domain_desc: "Domain email",
+                user_desc: "Phần tên người dùng của email",
+                required: "Bắt buộc",
+                page_desc: "Số trang",
+                limit_desc: "Số mục mỗi trang (1-100)",
+                example_request: "Ví dụ Request:",
+                response: "Response:",
+                read_email: "Đọc Email Đơn",
+                read_email_desc: "Lấy một email cụ thể theo ID.",
+                delete_email: "Xóa Email",
+                delete_email_desc: "Xóa một email cụ thể.",
+                save_email: "Lưu Email",
+                save_email_desc: "Lưu một email mới (thường được sử dụng bởi mail server).",
+                request_body: "Request Body:",
+                domain_management: "🌐 Quản lý Domain",
+                list_domains: "Danh sách Tất cả Domain",
+                list_domains_desc: "Lấy danh sách tất cả domain có sẵn.",
+                example_response: "Ví dụ Response:",
+                random_domains: "Lấy Domain Ngẫu nhiên",
+                random_domains_desc: "Lấy một lựa chọn ngẫu nhiên các domain online.",
+                domains_limit_desc: "Số domain (1-50)",
+                add_domain: "Thêm Domain",
+                add_domain_desc: "Thêm domain mới vào hệ thống.",
+                check_mx: "Kiểm tra MX Records Domain",
+                check_mx_desc: "Kiểm tra xem domain có MX records hợp lệ trỏ đến mail server của chúng tôi không.",
+                utility_endpoints: "🔧 Utility Endpoints",
+                refresh_domains: "Làm mới Trạng thái Domain",
+                refresh_domains_desc: "Buộc làm mới tất cả trạng thái domain.",
+                cleanup_emails: "Dọn dẹp Email Cũ",
+                cleanup_emails_desc: "Xóa email cũ hơn 7 ngày.",
+                response_codes: "📝 Mã Response",
+                code: "Mã",
+                success: "Thành công",
+                bad_request: "Yêu cầu Không hợp lệ - Tham số không hợp lệ",
+                not_found: "Không Tìm thấy - Tài nguyên không tồn tại",
+                server_error: "Lỗi Máy chủ Nội bộ",
+                usage_examples: "💡 Ví dụ Sử dụng",
+                js_example: "Ví dụ JavaScript",
+                python_example: "Ví dụ Python",
+                rate_limiting: "🔐 Giới hạn Tốc độ",
+                rate_limiting_desc: "Các yêu cầu API bị giới hạn tốc độ để ngăn chặn lạm dụng. Giới hạn hiện tại:",
+                rate_limit_1: "100 yêu cầu mỗi phút mỗi IP",
+                rate_limit_2: "1000 yêu cầu mỗi giờ mỗi IP",
+                support: "📞 Hỗ trợ",
+                support_desc: "Để được hỗ trợ API, vui lòng liên hệ với chúng tôi hoặc email: support@mailscr.us"
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('language') || 'en';
+
+        // Language functions
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+            document.getElementById('langVi').classList.toggle('active', lang === 'vi');
+            
+            updateTranslations();
+        }
+
+        function updateTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    el.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function t(key) {
+            return translations[currentLanguage][key] || key;
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        // Initialize
+        window.onload = () => {
+            setTheme(currentTheme);
+            changeLanguage(currentLanguage);
+        };
+    </script>
+</body>
+
+<!-- Mirrored from mailscr.us/api-docs.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 10 Mar 2026 10:21:52 GMT -->
+</html>
