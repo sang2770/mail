@@ -24,7 +24,7 @@ router.post("/login", async (req, res) => {
             { expiresIn: "7d" }
         );
 
-        return res.json({ token, role: user.role });
+        return res.json({ token, role: user.role, username: user.username, expiresIn: 7 * 24 * 3600 });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

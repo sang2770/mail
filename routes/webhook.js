@@ -27,6 +27,7 @@ router.post("/webhook/mail", async (req, res) => {
             from: message.from,
             subject: message.subject,
             time: message.time,
+            otp: message.otp,
         });
         io.emit("new_email", {
             to,
@@ -34,6 +35,7 @@ router.post("/webhook/mail", async (req, res) => {
             from: message.from,
             subject: message.subject,
             time: message.time,
+            otp: message.otp,
         });
 
         return res.json({ status: "ok", id: message.id });

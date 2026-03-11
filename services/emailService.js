@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const { getRedisClient } = require("../redis/redisClient");
+const { extractOTP } = require("@onedaydevelopers/otp-detector");
 
 const EMAIL_TTL_SECONDS = 24 * 60 * 60;
 
@@ -45,6 +46,20 @@ async function generateRandomEmail(allowedDomains) {
 
 async function saveIncomingEmail({ to, from, subject, text, html }) {
     const messageId = crypto.randomUUID();
+    
+    // Detect OTP codes from email content
+    const textToAnalyze = text || "";
+    const htmlToAnalyze = html ? html.replace(/<[^>]*>/g, " ") : ""; // Strip HTML tags
+    const combinedText = `${textToAnalyze} ${htmlToAnalyze}`;
+    
+    let otpCode = null;
+    try {
+        otpCode = extractOTP(combinedText);
+        // If no OTP is detected, the function returns null
+    } catch (error) {
+        console.log("Error detecting OTP:", error.message);
+    }
+    
     const message = {
         id: messageId,
         from: from || "unknown@sender.local",
@@ -54,6 +69,7 @@ async function saveIncomingEmail({ to, from, subject, text, html }) {
         html_body: html || "",
         time: new Date().toISOString(),
         date: new Date().toISOString(),
+        otp: otpCode, // Add OTP code to message object
     };
 
     const messages = await getMessages(to);
@@ -84,6 +100,7 @@ async function getInbox(email, page = 1, limit = 20) {
             subject: item.subject,
             time: item.time,
             date: item.date,
+            otp: item.otp,
         })),
     };
 }

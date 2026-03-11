@@ -1,146 +1,197 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng nhập - MailScr Admin</title>
-    <style>
-      body {
-        font-family: Inter, Arial, sans-serif;
-        background: #f4f7fb;
-        margin: 0;
-        display: grid;
-        place-items: center;
-        min-height: 100vh;
-      }
-      .card {
-        width: 100%;
-        max-width: 420px;
-        background: #fff;
-        border-radius: 14px;
-        padding: 24px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      }
-      h1 {
-        margin: 0 0 8px;
-        font-size: 22px;
-        color: #1f2937;
-      }
-      p {
-        margin: 0 0 20px;
-        color: #6b7280;
-      }
-      label {
-        display: block;
-        margin: 12px 0 6px;
-        color: #374151;
-        font-weight: 600;
-      }
-      input {
-        width: 93%;
-        padding: 10px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-      }
-      button {
-        margin-top: 16px;
-        width: 100%;
-        padding: 10px 12px;
-        border: 0;
-        border-radius: 8px;
-        background: #2563eb;
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-      }
-      .msg {
-        margin-top: 12px;
-        font-size: 14px;
-      }
-      .error {
-        color: #dc2626;
-      }
-      .ok {
-        color: #16a34a;
-      }
-      .links {
-        margin-top: 16px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <h1>Đăng nhập quản trị</h1>
-      <p>Dùng tài khoản để truy cập domain ẩn và trang admin.</p>
 
-      <form id="loginForm">
-        <label for="username">Username</label>
-        <input id="username" name="username" placeholder="admin" required />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập - MailScr Admin</title>
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
 
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
 
-        <button type="submit">Đăng nhập</button>
-        <div id="message" class="msg"></div>
-      </form>
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: #1f2937;
+    }
 
-      <div class="links">
-        <a href="/">Về trang chủ</a>
-        <a href="/admin.html">Đi tới Admin</a>
-      </div>
+    p {
+      margin: 0 0 20px;
+      color: #6b7280;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    input {
+      width: 93%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .msg {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #dc2626;
+    }
+
+    .ok {
+      color: #16a34a;
+    }
+
+    .links {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1 data-translate="login_title"></h1>
+    <form id="loginForm">
+      <label for="username" data-translate="username"></label>
+      <input id="username" name="username" placeholder="admin" required />
+
+      <label for="password" data-translate="password"></label>
+      <input id="password" type="password" name="password" placeholder="••••••••" required />
+
+      <button type="submit" data-translate="login_button"></button>
+      <div id="message" class="msg"></div>
+    </form>
+
+    <div class="links">
+      <a href="/" data-translate="home_link"></a>
     </div>
+  </div>
 
-    <script>
-      const form = document.getElementById("loginForm");
-      const message = document.getElementById("message");
+  <script>
+    const translations = {
+      en: {
+        login_title: "User Login",
+        username: "Username",
+        password: "Password",
+        login_button: "Login",
+        logging_in: "Logging in...",
+        login_success: "Login successful",
+        login_failed: "Login failed",
+        home_link: "Back to Home",
+      },
+      vi: {
+        login_title: "Đăng nhập người dùng",
+        username: "Tên đăng nhập",
+        password: "Mật khẩu",
+        login_button: "Đăng nhập",
+        logging_in: "Đang đăng nhập...",
+        login_success: "Đăng nhập thành công",
+        login_failed: "Đăng nhập thất bại",
+        home_link: "Quay về trang chủ",
+      }
+    };
+    let currentLanguage = localStorage.getItem("language") || "vi";
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
 
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        message.className = "msg";
-        message.textContent = "Đang đăng nhập...";
-
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value;
-
-        try {
-          const response = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-          });
-
-          const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.error || "Đăng nhập thất bại");
-          }
-
-          localStorage.setItem("mail_token", data.token);
-          localStorage.setItem("mail_role", data.role);
-
-          message.className = "msg ok";
-          message.textContent = `Đăng nhập thành công (${data.role}).`;
-
-          setTimeout(() => {
-            if (data.role === "admin") {
-              window.location.href = "/admin.html";
-              return;
-            }
-            window.location.href = "/";
-          }, 600);
-        } catch (error) {
-          message.className = "msg error";
-          message.textContent = error.message;
+    function updateTranslations() {
+      const elements = document.querySelectorAll("[data-translate]");
+      elements.forEach((el) => {
+        const key = el.getAttribute("data-translate");
+        if (translations[currentLanguage][key]) {
+          el.textContent = translations[currentLanguage][key];
         }
       });
-    </script>
-  </body>
+
+      const placeholderElements = document.querySelectorAll(
+        "[data-translate-placeholder]",
+      );
+      placeholderElements.forEach((el) => {
+        const key = el.getAttribute("data-translate-placeholder");
+        if (translations[currentLanguage][key]) {
+          el.placeholder = translations[currentLanguage][key];
+        }
+      });
+    }
+
+
+    updateTranslations();
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.className = "msg";
+      message.textContent = translations[currentLanguage]["logging_in"];
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(translations[currentLanguage]["login_failed"]);
+        }
+
+        localStorage.setItem("mail_token", data.token);
+        localStorage.setItem("mail_role", data.role);
+        localStorage.setItem("mail_username", data.username);
+        localStorage.setItem("mail_token_expiry", Date.now() + data.expiresIn * 1000);
+
+        message.className = "msg ok";
+        message.textContent = translations[currentLanguage]["login_success"];
+
+        setTimeout(() => {
+          if (data.role === "admin") {
+            window.location.href = "/admin.html";
+            return;
+          }
+          window.location.href = "/";
+        }, 600);
+      } catch (error) {
+        message.className = "msg error";
+        message.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+
 </html>

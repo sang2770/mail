@@ -30,6 +30,9 @@ async function startSmtpServer() {
         disabledCommands: ["AUTH", "STARTTLS"],
         authOptional: true,
         logger: false,
+        onRcptTo(address, session, callback) {
+            callback(); // Chấp nhận tất cả địa chỉ người nhận, sẽ kiểm tra sau trong onData
+        },
         onData(stream, session, callback) {
             simpleParser(stream)
                 .then(async (parsed) => {
@@ -67,6 +70,7 @@ async function startSmtpServer() {
                             from: message.from,
                             subject: message.subject,
                             time: message.time,
+                            otp: message.otp,
                         });
 
                         io.emit("new_email", {
@@ -75,6 +79,7 @@ async function startSmtpServer() {
                             from: message.from,
                             subject: message.subject,
                             time: message.time,
+                            otp: message.otp,
                         });
                     }
 

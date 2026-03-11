@@ -47,6 +47,7 @@ router.get("/inbox/:email", optionalAuth, async (req, res) => {
                 from: item.from,
                 subject: item.subject,
                 time: item.time,
+                otp: item.otp,
             }))
         );
     } catch (error) {
@@ -68,6 +69,7 @@ router.get("/email/:id", async (req, res) => {
             html_body: email.html_body,
             time: email.time,
             id: email.id,
+            otp: email.otp,
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
