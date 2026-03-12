@@ -316,6 +316,8 @@
       document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.removeItem("mail_token");
         localStorage.removeItem("mail_role");
+        localStorage.removeItem("mail_username");
+        localStorage.removeItem("mail_token_expiry");
         window.location.href = "/login.html";
       });
 
