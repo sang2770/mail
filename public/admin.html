@@ -1,187 +1,261 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin - MailScr</title>
-    <style>
-      body {
-        font-family: Inter, Arial, sans-serif;
-        background: #f4f7fb;
-        margin: 0;
-        color: #1f2937;
-      }
-      .wrap {
-        max-width: 1100px;
-        margin: 24px auto;
-        padding: 0 16px;
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-      }
-      .card {
-        background: white;
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-        margin-bottom: 16px;
-      }
-      h1,
-      h2 {
-        margin: 0 0 12px;
-      }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon"
+    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM0OThkYiIvPgo8cGF0aCBkPSJtNiA5aDIwdjE0SDZ6IiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Im02IDlsMTAgN0wyNiA5IiBzdHJva2U9IiMzNDk4ZGIiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K" />
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9IiMzNDk4ZGIiLz4KPHBhdGggZD0ibTMwIDUwaDEyMHY4MEgzMHoiIGZpbGw9IiNmZmYiLz4KPHBhdGggZD0ibTMwIDUwbDYwIDQwTDE1MCA1MCIgc3Ryb2tlPSIjMzQ5OGRiIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiLz4KPC9zdmc+" />
+
+  <title>Quản trị viên</title>
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      color: #1f2937;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    h1,
+    h2 {
+      margin: 0 0 12px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1.4fr 1.2fr 1fr auto;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    input,
+    select,
+    button {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    button.secondary {
+      background: #6b7280;
+    }
+
+    button.danger {
+      background: #dc2626;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 6px;
+      font-size: 14px;
+    }
+
+    .msg {
+      font-size: 14px;
+      margin-top: 4px;
+      color: #2563eb;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    @media (max-width: 900px) {
       form {
-        display: grid;
-        grid-template-columns: 1.4fr 1.2fr 1fr auto;
-        gap: 8px;
-        margin-bottom: 10px;
+        grid-template-columns: 1fr;
       }
-      input,
-      select,
-      button {
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #d1d5db;
-      }
-      button {
-        cursor: pointer;
-        border: 0;
-        background: #2563eb;
-        color: #fff;
-        font-weight: 600;
-      }
-      button.secondary {
-        background: #6b7280;
-      }
-      button.danger {
-        background: #dc2626;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        text-align: left;
-        border-bottom: 1px solid #e5e7eb;
-        padding: 10px 6px;
-        font-size: 14px;
-      }
-      .msg {
-        font-size: 14px;
-        margin-top: 4px;
-        color: #2563eb;
-      }
-      .small {
-        font-size: 13px;
-        color: #6b7280;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <div class="header">
-        <h1>Admin Dashboard</h1>
-        <div>
-          <a href="/" style="margin-right: 8px">Trang chủ</a>
-          <button class="secondary" id="logoutBtn">Đăng xuất</button>
-        </div>
-      </div>
+    }
+  </style>
+</head>
 
-      <div class="card">
-        <h2>Quản lý User</h2>
-        <form id="userForm">
-          <input id="username" placeholder="username" required />
-          <input id="password" placeholder="password" required />
-          <select id="role" required>
-            <option value="basic">basic</option>
-            <option value="premium">premium</option>
-            <option value="vip">vip</option>
-            <option value="admin">admin</option>
-          </select>
-          <button type="submit">Thêm user</button>
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Loại</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody id="userTable"></tbody>
-        </table>
-        <div id="userMsg" class="msg"></div>
-      </div>
-
-      <div class="card">
-        <h2>Quản lý Domain</h2>
-        <form id="domainForm">
-          <input id="domainName" placeholder="example.com" required />
-          <select id="domainTier" required>
-            <option value="basic">basic</option>
-            <option value="premium">premium</option>
-            <option value="vip">vip</option>
-          </select>
-          <select id="domainPublic" required>
-            <option value="true">Công khai</option>
-            <option value="false">Riêng tư</option>
-          </select>
-          <button type="submit">Thêm domain</button>
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Domain</th>
-              <th>Loại</th>
-              <th>Công khai</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody id="domainTable"></tbody>
-        </table>
-        <div id="domainMsg" class="msg"></div>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Admin Dashboard</h1>
+      <div>
+        <a href="/" style="margin-right: 8px">Trang chủ</a>
+        <button class="secondary" id="logoutBtn">Đăng xuất</button>
       </div>
     </div>
 
-    <script>
-      const token = localStorage.getItem("mail_token");
-      const role = localStorage.getItem("mail_role");
+    <div class="card">
+      <h2>Quản lý User</h2>
+      <form id="userForm">
+        <input id="username" placeholder="username" required />
+        <input id="password" placeholder="password" required />
+        <select id="role" required>
+          <option value="basic">basic</option>
+          <option value="premium">premium</option>
+          <option value="vip">vip</option>
+          <option value="admin">admin</option>
+        </select>
+        <button type="submit">Thêm user</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Loại</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+      </table>
+      <div id="userMsg" class="msg"></div>
+    </div>
 
-      if (!token || role !== "admin") {
-        window.location.href = "/login.html";
+    <div class="card">
+      <h2>Quản lý Domain</h2>
+      <form id="domainForm">
+        <input id="domainName" placeholder="example.com" required />
+        <select id="domainTier" required>
+          <option value="basic">basic</option>
+          <option value="premium">premium</option>
+          <option value="vip">vip</option>
+        </select>
+        <select id="domainPublic" required>
+          <option value="true">Công khai</option>
+          <option value="false">Riêng tư</option>
+        </select>
+        <button type="submit">Thêm domain</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Domain</th>
+            <th>Loại</th>
+            <th>Công khai</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="domainTable"></tbody>
+      </table>
+      <div id="domainMsg" class="msg"></div>
+    </div>
+
+    <div class="card">
+      <h2>Quản lý Email đã tạo</h2>
+      <form id="mailboxFilterForm" style="grid-template-columns: 1fr auto auto">
+        <input id="mailboxQuery" placeholder="Tìm email, ví dụ: abc@" />
+        <button type="submit">Tìm kiếm</button>
+        <button type="button" class="secondary" id="exportMailboxBtn">
+          Export TXT
+        </button>
+      </form>
+      <div class="small" id="mailboxCount"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Số thư</th>
+            <th>Tạo lúc</th>
+            <th>Hoạt động gần nhất</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="mailboxTable"></tbody>
+      </table>
+      <div id="mailboxMsg" class="msg"></div>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("mail_token");
+    const role = localStorage.getItem("mail_role");
+
+    if (!token || role !== "admin") {
+      window.location.href = "/login.html";
+    }
+
+    const authHeaders = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        ...options,
+        headers: {
+          ...authHeaders,
+          ...(options.headers || {}),
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "Request failed");
       }
+      return data;
+    }
 
-      const authHeaders = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
-      async function api(path, options = {}) {
-        const response = await fetch(path, {
-          ...options,
-          headers: {
-            ...authHeaders,
-            ...(options.headers || {}),
-          },
-        });
+    function formatDateTime(value) {
+      if (!value) return "-";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "-";
+      return date.toLocaleString("vi-VN");
+    }
 
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(data.error || "Request failed");
-        }
-        return data;
-      }
-
-      async function loadUsers() {
-        const users = await api("/api/admin/users");
-        const table = document.getElementById("userTable");
-        table.innerHTML = users
-          .map(
-            (u) => `
+    async function loadUsers() {
+      const users = await api("/api/admin/users");
+      const table = document.getElementById("userTable");
+      table.innerHTML = users
+        .map(
+          (u) => `
         <tr>
           <td>${u.username}</td>
           <td>
@@ -195,16 +269,16 @@
           <td><button class="danger" onclick="deleteUser('${u.username}')">Xóa</button></td>
         </tr>
       `,
-          )
-          .join("");
-      }
+        )
+        .join("");
+    }
 
-      async function loadDomains() {
-        const domains = await api("/api/admin/domains");
-        const table = document.getElementById("domainTable");
-        table.innerHTML = domains
-          .map(
-            (d) => `
+    async function loadDomains() {
+      const domains = await api("/api/admin/domains");
+      const table = document.getElementById("domainTable");
+      table.innerHTML = domains
+        .map(
+          (d) => `
         <tr>
           <td>${d.name}</td>
           <td>
@@ -218,123 +292,228 @@
           <td><button class="danger" onclick="deleteDomain('${d.name}')">Xóa</button></td>
         </tr>
       `,
+        )
+        .join("");
+    }
+
+    async function loadMailboxes() {
+      const query = document.getElementById("mailboxQuery").value.trim();
+      const result = await api(
+        `/api/admin/mailboxes?page=1&limit=200&q=${encodeURIComponent(query)}`,
+      );
+      const table = document.getElementById("mailboxTable");
+
+      if (!result.mailboxes || !result.mailboxes.length) {
+        table.innerHTML =
+          '<tr><td colspan="5" class="small">Chưa có email nào được tạo</td></tr>';
+      } else {
+        table.innerHTML = result.mailboxes
+          .map(
+            (m) => `
+          <tr>
+            <td>${escapeHtml(m.email)}</td>
+            <td>${m.message_count ?? 0}</td>
+            <td>${formatDateTime(m.created_at)}</td>
+            <td>${formatDateTime(m.last_seen)}</td>
+            <td>
+              <div class="row-actions">
+                <button class="danger" onclick="deleteMailbox('${encodeURIComponent(
+              m.email,
+            )}')">Xóa</button>
+              </div>
+            </td>
+          </tr>
+        `,
           )
           .join("");
       }
 
-      async function updateUserRole(username, role) {
+      document.getElementById("mailboxCount").textContent =
+        `Tổng: ${result.total || 0} email`;
+    }
+
+    async function updateUserRole(username, role) {
+      try {
+        await api(`/api/admin/users/${username}`, {
+          method: "PATCH",
+          body: JSON.stringify({ role }),
+        });
+        document.getElementById("userMsg").textContent =
+          `Đã cập nhật role cho ${username}`;
+      } catch (error) {
+        document.getElementById("userMsg").textContent = error.message;
+      }
+    }
+
+    async function deleteUser(username) {
+      if (!confirm(`Xóa user ${username}?`)) return;
+      try {
+        await api(`/api/admin/users/${username}`, { method: "DELETE" });
+        await loadUsers();
+      } catch (error) {
+        document.getElementById("userMsg").textContent = error.message;
+      }
+    }
+
+    async function updateDomainTier(name, tier) {
+      try {
+        await api(`/api/admin/domains/${name}`, {
+          method: "PATCH",
+          body: JSON.stringify({ tier }),
+        });
+        document.getElementById("domainMsg").textContent =
+          `Đã cập nhật tier ${name}`;
+      } catch (error) {
+        document.getElementById("domainMsg").textContent = error.message;
+      }
+    }
+
+    async function deleteDomain(name) {
+      if (!confirm(`Xóa domain ${name}?`)) return;
+      try {
+        await api(`/api/admin/domains/${name}`, { method: "DELETE" });
+        await loadDomains();
+      } catch (error) {
+        document.getElementById("domainMsg").textContent = error.message;
+      }
+    }
+
+    async function deleteMailbox(encodedEmail) {
+      const email = decodeURIComponent(encodedEmail);
+      if (!confirm(`Xóa mailbox ${email}? Toàn bộ thư trong mailbox cũng sẽ bị xóa.`))
+        return;
+
+      try {
+        await api("/api/admin/mailboxes", {
+          method: "DELETE",
+          body: JSON.stringify({ email }),
+        });
+        document.getElementById("mailboxMsg").textContent =
+          `Đã xóa mailbox ${email}`;
+        await loadMailboxes();
+      } catch (error) {
+        document.getElementById("mailboxMsg").textContent = error.message;
+      }
+    }
+
+    async function exportMailboxes() {
+      const query = document.getElementById("mailboxQuery").value.trim();
+      const url = `/api/admin/mailboxes/export.txt?q=${encodeURIComponent(query)}`;
+
+      try {
+        const response = await fetch(url, { headers: authHeaders });
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || "Export failed");
+        }
+
+        const blob = await response.blob();
+        const disposition = response.headers.get("Content-Disposition") || "";
+        const matched = disposition.match(/filename=([^;]+)/i);
+        const fileName = matched
+          ? matched[1].replace(/\"/g, "")
+          : "mailboxes.txt";
+
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(downloadUrl);
+        document.getElementById("mailboxMsg").textContent =
+          "Export file TXT thành công";
+      } catch (error) {
+        document.getElementById("mailboxMsg").textContent = error.message;
+      }
+    }
+
+    document
+      .getElementById("userForm")
+      .addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const role = document.getElementById("role").value;
+
         try {
-          await api(`/api/admin/users/${username}`, {
-            method: "PATCH",
-            body: JSON.stringify({ role }),
+          await api("/api/admin/users", {
+            method: "POST",
+            body: JSON.stringify({ username, password, role }),
           });
           document.getElementById("userMsg").textContent =
-            `Đã cập nhật role cho ${username}`;
-        } catch (error) {
-          document.getElementById("userMsg").textContent = error.message;
-        }
-      }
-
-      async function deleteUser(username) {
-        if (!confirm(`Xóa user ${username}?`)) return;
-        try {
-          await api(`/api/admin/users/${username}`, { method: "DELETE" });
+            "Thêm user thành công";
+          event.target.reset();
           await loadUsers();
         } catch (error) {
           document.getElementById("userMsg").textContent = error.message;
         }
-      }
+      });
 
-      async function updateDomainTier(name, tier) {
+    document
+      .getElementById("domainForm")
+      .addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const name = document.getElementById("domainName").value.trim();
+        const tier = document.getElementById("domainTier").value;
+        const isPublic =
+          document.getElementById("domainPublic").value === "true";
+
         try {
-          await api(`/api/admin/domains/${name}`, {
-            method: "PATCH",
-            body: JSON.stringify({ tier }),
+          await api("/api/admin/domains", {
+            method: "POST",
+            body: JSON.stringify({ name, tier, public: isPublic }),
           });
           document.getElementById("domainMsg").textContent =
-            `Đã cập nhật tier ${name}`;
-        } catch (error) {
-          document.getElementById("domainMsg").textContent = error.message;
-        }
-      }
-
-      async function deleteDomain(name) {
-        if (!confirm(`Xóa domain ${name}?`)) return;
-        try {
-          await api(`/api/admin/domains/${name}`, { method: "DELETE" });
+            "Thêm domain thành công";
+          event.target.reset();
           await loadDomains();
         } catch (error) {
           document.getElementById("domainMsg").textContent = error.message;
         }
-      }
-
-      document
-        .getElementById("userForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-          const username = document.getElementById("username").value.trim();
-          const password = document.getElementById("password").value.trim();
-          const role = document.getElementById("role").value;
-
-          try {
-            await api("/api/admin/users", {
-              method: "POST",
-              body: JSON.stringify({ username, password, role }),
-            });
-            document.getElementById("userMsg").textContent =
-              "Thêm user thành công";
-            event.target.reset();
-            await loadUsers();
-          } catch (error) {
-            document.getElementById("userMsg").textContent = error.message;
-          }
-        });
-
-      document
-        .getElementById("domainForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-          const name = document.getElementById("domainName").value.trim();
-          const tier = document.getElementById("domainTier").value;
-          const isPublic =
-            document.getElementById("domainPublic").value === "true";
-
-          try {
-            await api("/api/admin/domains", {
-              method: "POST",
-              body: JSON.stringify({ name, tier, public: isPublic }),
-            });
-            document.getElementById("domainMsg").textContent =
-              "Thêm domain thành công";
-            event.target.reset();
-            await loadDomains();
-          } catch (error) {
-            document.getElementById("domainMsg").textContent = error.message;
-          }
-        });
-
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        localStorage.removeItem("mail_token");
-        localStorage.removeItem("mail_role");
-        localStorage.removeItem("mail_username");
-        localStorage.removeItem("mail_token_expiry");
-        window.location.href = "/login.html";
       });
 
-      Promise.all([loadUsers(), loadDomains()]).catch((error) => {
-        alert(error.message);
-        if (
-          error.message.toLowerCase().includes("unauthorized") ||
-          error.message.toLowerCase().includes("admin")
-        ) {
-          window.location.href = "/login.html";
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("mail_token");
+      localStorage.removeItem("mail_role");
+      localStorage.removeItem("mail_username");
+      localStorage.removeItem("mail_token_expiry");
+      window.location.href = "/login.html";
+    });
+
+    document
+      .getElementById("mailboxFilterForm")
+      .addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          await loadMailboxes();
+          document.getElementById("mailboxMsg").textContent = "";
+        } catch (error) {
+          document.getElementById("mailboxMsg").textContent = error.message;
         }
       });
 
-      window.updateUserRole = updateUserRole;
-      window.deleteUser = deleteUser;
-      window.updateDomainTier = updateDomainTier;
-      window.deleteDomain = deleteDomain;
-    </script>
-  </body>
+    document
+      .getElementById("exportMailboxBtn")
+      .addEventListener("click", exportMailboxes);
+
+    Promise.all([loadUsers(), loadDomains(), loadMailboxes()]).catch((error) => {
+      alert(error.message);
+      if (
+        error.message.toLowerCase().includes("unauthorized") ||
+        error.message.toLowerCase().includes("admin")
+      ) {
+        window.location.href = "/login.html";
+      }
+    });
+
+    window.updateUserRole = updateUserRole;
+    window.deleteUser = deleteUser;
+    window.updateDomainTier = updateDomainTier;
+    window.deleteDomain = deleteDomain;
+    window.deleteMailbox = deleteMailbox;
+  </script>
+</body>
+
 </html>

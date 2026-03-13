@@ -3,6 +3,7 @@ const path = require("path");
 
 const DOMAIN_FILE = path.join(__dirname, "..", "data", "domains.json");
 const USER_FILE = path.join(__dirname, "..", "data", "users.json");
+const MAILBOX_FILE = path.join(__dirname, "..", "data", "mailboxes.json");
 
 async function readJson(filePath) {
     const content = await fs.readFile(filePath, "utf-8");
@@ -29,9 +30,27 @@ async function saveUsers(users) {
     return writeJson(USER_FILE, users);
 }
 
+async function getMailboxes() {
+    try {
+        return await readJson(MAILBOX_FILE);
+    } catch (error) {
+        if (error && error.code === "ENOENT") {
+            await writeJson(MAILBOX_FILE, []);
+            return [];
+        }
+        throw error;
+    }
+}
+
+async function saveMailboxes(mailboxes) {
+    return writeJson(MAILBOX_FILE, mailboxes);
+}
+
 module.exports = {
     getDomains,
     saveDomains,
     getUsers,
     saveUsers,
+    getMailboxes,
+    saveMailboxes,
 };

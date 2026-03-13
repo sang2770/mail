@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const { getRedisClient } = require("../redis/redisClient");
 const { extractOTP } = require("@onedaydevelopers/otp-detector");
+const { getMailboxes, saveMailboxes } = require("./configService");
 
 const EMAIL_TTL_SECONDS = 24 * 60 * 60;
 
@@ -10,6 +11,38 @@ function emailKey(email) {
 
 function messageIndexKey(messageId) {
     return `message:${messageId}:email`;
+}
+
+function normalizeEmail(email) {
+    return String(email || "").trim().toLowerCase();
+}
+
+async function getMailboxRegistry() {
+    const entries = await getMailboxes();
+    return Array.isArray(entries) ? entries : [];
+}
+
+async function saveMailboxRegistry(entries) {
+    await saveMailboxes(entries);
+}
+
+async function registerMailbox(email) {
+    const mailbox = normalizeEmail(email);
+    if (!mailbox || !mailbox.includes("@")) {
+        return;
+    }
+
+    const now = new Date().toISOString();
+    const entries = await getMailboxRegistry();
+    const existing = entries.find((item) => item.email === mailbox);
+
+    if (existing) {
+        existing.last_seen = now;
+    } else {
+        entries.unshift({ email: mailbox, created_at: now, last_seen: now });
+    }
+
+    await saveMailboxRegistry(entries);
 }
 
 async function getMessages(email) {
@@ -41,11 +74,14 @@ async function generateRandomEmail(allowedDomains) {
 
     const domain = allowedDomains[Math.floor(Math.random() * allowedDomains.length)].name;
     const username = randomUsername();
-    return buildEmail(username, domain);
+    const email = buildEmail(username, domain);
+    await registerMailbox(email);
+    return email;
 }
 
 async function saveIncomingEmail({ to, from, subject, text, html }) {
     const messageId = crypto.randomUUID();
+    await registerMailbox(to);
     
     // Detect OTP codes from email content
     const textToAnalyze = text || "";
@@ -83,7 +119,9 @@ async function saveIncomingEmail({ to, from, subject, text, html }) {
 }
 
 async function getInbox(email, page = 1, limit = 20) {
-    const messages = await getMessages(email);
+    await registerMailbox(email);
+    const mailbox = normalizeEmail(email);
+    const messages = await getMessages(mailbox);
     const offset = (page - 1) * limit;
     const paginated = messages.slice(offset, offset + limit);
 
@@ -103,6 +141,61 @@ async function getInbox(email, page = 1, limit = 20) {
             otp: item.otp,
         })),
     };
+}
+
+async function listCreatedMailboxes(page = 1, limit = 20, query = "") {
+    const normalizedQuery = String(query || "").trim().toLowerCase();
+    const entries = await getMailboxRegistry();
+
+    const filtered = entries
+        .filter((item) => item && item.email)
+        .filter((item) => !normalizedQuery || item.email.includes(normalizedQuery))
+        .sort((a, b) => new Date(b.last_seen || b.created_at || 0) - new Date(a.last_seen || a.created_at || 0));
+
+    const offset = (page - 1) * limit;
+    const selected = filtered.slice(offset, offset + limit);
+
+    const mailboxes = await Promise.all(
+        selected.map(async (item) => {
+            const messages = await getMessages(item.email);
+            return {
+                email: item.email,
+                created_at: item.created_at || null,
+                last_seen: item.last_seen || item.created_at || null,
+                message_count: messages.length,
+            };
+        })
+    );
+
+    return {
+        mailboxes,
+        page,
+        limit,
+        total: filtered.length,
+        has_more: offset + limit < filtered.length,
+    };
+}
+
+async function deleteCreatedMailbox(email) {
+    const mailbox = normalizeEmail(email);
+    if (!mailbox) {
+        return false;
+    }
+
+    const entries = await getMailboxRegistry();
+    const nextEntries = entries.filter((item) => item.email !== mailbox);
+    if (nextEntries.length === entries.length) {
+        return false;
+    }
+
+    const messages = await getMessages(mailbox);
+    const redis = getRedisClient();
+
+    await Promise.all(messages.map((item) => redis.del(messageIndexKey(item.id))));
+    await redis.del(emailKey(mailbox));
+    await saveMailboxRegistry(nextEntries);
+
+    return true;
 }
 
 async function getEmailById(messageId) {
@@ -146,5 +239,7 @@ module.exports = {
     getEmailById,
     getEmailByMailbox,
     deleteEmailByMailbox,
+    listCreatedMailboxes,
+    deleteCreatedMailbox,
     buildEmail,
 };
