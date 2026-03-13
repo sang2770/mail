@@ -1,7 +1,57 @@
 [
-  { "name": "mail1.com", "tier": "basic", "public": true },
-  { "name": "mail2.com", "tier": "basic", "public": true },
-  { "name": "hidden1.com", "tier": "premium", "public": false },
-  { "name": "hidden2.com", "tier": "premium", "public": false },
-  { "name": "vip1.com", "tier": "vip", "public": false }
+  {
+    "name": "temp-mail-free.com",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "mailnova.io.vn",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "inboxify.site",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "sendflow.fun",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "mailvista.xyz",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "quickinbox.asia",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "fastmails.top",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "tempmailhub.top",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "mailharbor.site",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "poststream.tokyo",
+    "tier": "basic",
+    "public": true
+  },
+  {
+    "name": "mailbridge.shop",
+    "tier": "basic",
+    "public": true
+  }
 ]
