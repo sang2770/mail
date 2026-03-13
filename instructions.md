@@ -1,4 +1,4 @@
-Tôi muốn xây dựng backend cho một website **Temporary Email** giống mail-temp-free.com.
+Tôi muốn xây dựng backend cho một website **Temporary Email** giống temp-mail-free.com.
 
 Tôi **đã có sẵn toàn bộ UI HTML/CSS/JS của website**, vì vậy **không cần tạo frontend mới**, chỉ cần backend API để UI hoạt động.
 
