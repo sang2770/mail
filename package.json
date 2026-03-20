@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "db:init": "node scripts/init-sqlite.js",
+    "db:migrate:sqlite": "node scripts/migrate-to-sqlite.js"
   },
   "dependencies": {
     "@onedaydevelopers/otp-detector": "^1.1.1",
@@ -15,6 +17,8 @@
     "nodemailer": "^8.0.2",
     "redis": "^4.7.0",
     "smtp-server": "^3.18.1",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }

@@ -1,49 +1,90 @@
-const fs = require("fs/promises");
-const path = require("path");
+const { initSqlite } = require("./sqliteService");
 
-const DOMAIN_FILE = path.join(__dirname, "..", "data", "domains.json");
-const USER_FILE = path.join(__dirname, "..", "data", "users.json");
-const MAILBOX_FILE = path.join(__dirname, "..", "data", "mailboxes.json");
-
-async function readJson(filePath) {
-    const content = await fs.readFile(filePath, "utf-8");
-    return JSON.parse(content);
-}
-
-async function writeJson(filePath, data) {
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
+function toBoolean(value) {
+    return value === true || value === 1 || value === "1";
 }
 
 async function getDomains() {
-    return readJson(DOMAIN_FILE);
+    const db = await initSqlite();
+    const rows = await db.all("SELECT name, tier, public FROM domains");
+    return rows.map((item) => ({
+        name: item.name,
+        tier: item.tier,
+        public: toBoolean(item.public),
+    }));
 }
 
 async function saveDomains(domains) {
-    return writeJson(DOMAIN_FILE, domains);
-}
+    const db = await initSqlite();
+    await db.exec("BEGIN IMMEDIATE TRANSACTION");
 
-async function getUsers() {
-    return readJson(USER_FILE);
-}
-
-async function saveUsers(users) {
-    return writeJson(USER_FILE, users);
-}
-
-async function getMailboxes() {
     try {
-        return await readJson(MAILBOX_FILE);
-    } catch (error) {
-        if (error && error.code === "ENOENT") {
-            await writeJson(MAILBOX_FILE, []);
-            return [];
+        await db.run("DELETE FROM domains");
+
+        for (const item of domains || []) {
+            await db.run(
+                "INSERT INTO domains (name, tier, public) VALUES (?, ?, ?)",
+                [String(item.name || "").toLowerCase(), item.tier || "basic", item.public ? 1 : 0]
+            );
         }
+
+        await db.exec("COMMIT");
+    } catch (error) {
+        await db.exec("ROLLBACK");
         throw error;
     }
 }
 
+async function getUsers() {
+    const db = await initSqlite();
+    return db.all("SELECT id, username, password, role FROM users");
+}
+
+async function saveUsers(users) {
+    const db = await initSqlite();
+    await db.exec("BEGIN IMMEDIATE TRANSACTION");
+
+    try {
+        await db.run("DELETE FROM users");
+
+        for (const item of users || []) {
+            await db.run(
+                "INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)",
+                [item.id, item.username, item.password, item.role]
+            );
+        }
+
+        await db.exec("COMMIT");
+    } catch (error) {
+        await db.exec("ROLLBACK");
+        throw error;
+    }
+}
+
+async function getMailboxes() {
+    const db = await initSqlite();
+    return db.all("SELECT email, created_at, last_seen FROM mailboxes");
+}
+
 async function saveMailboxes(mailboxes) {
-    return writeJson(MAILBOX_FILE, mailboxes);
+    const db = await initSqlite();
+    await db.exec("BEGIN IMMEDIATE TRANSACTION");
+
+    try {
+        await db.run("DELETE FROM mailboxes");
+
+        for (const item of mailboxes || []) {
+            await db.run(
+                "INSERT INTO mailboxes (email, created_at, last_seen) VALUES (?, ?, ?)",
+                [item.email, item.created_at || null, item.last_seen || null]
+            );
+        }
+
+        await db.exec("COMMIT");
+    } catch (error) {
+        await db.exec("ROLLBACK");
+        throw error;
+    }
 }
 
 module.exports = {

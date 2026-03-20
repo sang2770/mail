@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const { connectRedis } = require("./redis/redisClient");
 const { initSocket } = require("./socket/socket");
+const { initSqlite } = require("./services/sqliteService");
 
 const authRoutes = require("./routes/auth");
 const domainRoutes = require("./routes/domain");
@@ -37,6 +38,7 @@ async function bootstrap() {
         res.sendFile(path.join(publicDir, "index.html"));
     });
 
+    await initSqlite();
     await connectRedis();
     initSocket(server);
     await startSmtpServer();
