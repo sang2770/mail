@@ -1,4 +1,4 @@
-const { initSqlite } = require("./sqliteService");
+const { initSqlite, runInWriteTransaction } = require("./sqliteService");
 
 function toBoolean(value) {
     return value === true || value === 1 || value === "1";
@@ -15,10 +15,7 @@ async function getDomains() {
 }
 
 async function saveDomains(domains) {
-    const db = await initSqlite();
-    await db.exec("BEGIN IMMEDIATE TRANSACTION");
-
-    try {
+    await runInWriteTransaction(async (db) => {
         await db.run("DELETE FROM domains");
 
         for (const item of domains || []) {
@@ -27,12 +24,7 @@ async function saveDomains(domains) {
                 [String(item.name || "").toLowerCase(), item.tier || "basic", item.public ? 1 : 0]
             );
         }
-
-        await db.exec("COMMIT");
-    } catch (error) {
-        await db.exec("ROLLBACK");
-        throw error;
-    }
+    });
 }
 
 async function getUsers() {
@@ -41,10 +33,7 @@ async function getUsers() {
 }
 
 async function saveUsers(users) {
-    const db = await initSqlite();
-    await db.exec("BEGIN IMMEDIATE TRANSACTION");
-
-    try {
+    await runInWriteTransaction(async (db) => {
         await db.run("DELETE FROM users");
 
         for (const item of users || []) {
@@ -53,12 +42,7 @@ async function saveUsers(users) {
                 [item.id, item.username, item.password, item.role]
             );
         }
-
-        await db.exec("COMMIT");
-    } catch (error) {
-        await db.exec("ROLLBACK");
-        throw error;
-    }
+    });
 }
 
 async function getMailboxes() {
@@ -67,10 +51,7 @@ async function getMailboxes() {
 }
 
 async function saveMailboxes(mailboxes) {
-    const db = await initSqlite();
-    await db.exec("BEGIN IMMEDIATE TRANSACTION");
-
-    try {
+    await runInWriteTransaction(async (db) => {
         await db.run("DELETE FROM mailboxes");
 
         for (const item of mailboxes || []) {
@@ -79,12 +60,7 @@ async function saveMailboxes(mailboxes) {
                 [item.email, item.created_at || null, item.last_seen || null]
             );
         }
-
-        await db.exec("COMMIT");
-    } catch (error) {
-        await db.exec("ROLLBACK");
-        throw error;
-    }
+    });
 }
 
 module.exports = {

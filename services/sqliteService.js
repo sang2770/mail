@@ -5,6 +5,7 @@ const { open } = require("sqlite");
 const SQLITE_PATH = process.env.SQLITE_PATH || path.join(__dirname, "..", "data", "app.db");
 
 let dbPromise = null;
+let writeQueue = Promise.resolve();
 
 async function getDb() {
     if (!dbPromise) {
@@ -49,8 +50,32 @@ async function initSqlite() {
     return db;
 }
 
+function runInWriteTransaction(operation) {
+    const task = writeQueue.then(async () => {
+        const db = await initSqlite();
+        await db.exec("BEGIN IMMEDIATE TRANSACTION");
+
+        try {
+            const result = await operation(db);
+            await db.exec("COMMIT");
+            return result;
+        } catch (error) {
+            try {
+                await db.exec("ROLLBACK");
+            } catch (_rollbackError) {
+                // Ignore rollback errors and surface original error
+            }
+            throw error;
+        }
+    });
+
+    writeQueue = task.catch(() => undefined);
+    return task;
+}
+
 module.exports = {
     SQLITE_PATH,
     getDb,
     initSqlite,
+    runInWriteTransaction,
 };
