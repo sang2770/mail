@@ -46,7 +46,7 @@ async function registerMailbox(email) {
 }
 
 async function getMessages(email) {
-    const redis = getRedisClient();
+    const redis = await getRedisClient();
     const raw = await redis.get(emailKey(email));
     if (!raw) {
         return [];
@@ -55,7 +55,7 @@ async function getMessages(email) {
 }
 
 async function saveMessages(email, messages) {
-    const redis = getRedisClient();
+    const redis = await getRedisClient();
     await redis.setEx(emailKey(email), EMAIL_TTL_SECONDS, JSON.stringify(messages));
 }
 
@@ -112,7 +112,7 @@ async function saveIncomingEmail({ to, from, subject, text, html }) {
     messages.unshift(message);
     await saveMessages(to, messages);
 
-    const redis = getRedisClient();
+    const redis = await getRedisClient();
     await redis.setEx(messageIndexKey(messageId), EMAIL_TTL_SECONDS, to.toLowerCase());
 
     return message;
@@ -189,7 +189,7 @@ async function deleteCreatedMailbox(email) {
     }
 
     const messages = await getMessages(mailbox);
-    const redis = getRedisClient();
+    const redis = await getRedisClient();
 
     await Promise.all(messages.map((item) => redis.del(messageIndexKey(item.id))));
     await redis.del(emailKey(mailbox));
@@ -199,7 +199,7 @@ async function deleteCreatedMailbox(email) {
 }
 
 async function getEmailById(messageId) {
-    const redis = getRedisClient();
+    const redis = await getRedisClient();
     const email = await redis.get(messageIndexKey(messageId));
     if (!email) {
         return null;
@@ -226,7 +226,7 @@ async function deleteEmailByMailbox(domain, user, messageId) {
     }
 
     await saveMessages(email, filtered);
-    const redis = getRedisClient();
+    const redis = await getRedisClient();
     await redis.del(messageIndexKey(messageId));
 
     return true;

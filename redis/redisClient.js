@@ -2,6 +2,10 @@ const { createClient } = require("redis");
 
 let redisClient;
 
+function isRedisConnection(client) {
+    return client && typeof client.connect === "function";
+}
+
 function createMemoryStore() {
     const store = new Map();
     const expiryTimers = new Map();
@@ -36,7 +40,22 @@ function createMemoryStore() {
 
 async function connectRedis() {
     if (redisClient) {
-        return redisClient;
+        if (!isRedisConnection(redisClient)) {
+            return redisClient;
+        }
+
+        if (redisClient.isOpen) {
+            return redisClient;
+        }
+
+        try {
+            await redisClient.connect();
+            return redisClient;
+        } catch (error) {
+            console.warn("Redis reconnect failed, using in-memory store:", error.message);
+            redisClient = createMemoryStore();
+            return redisClient;
+        }
     }
 
     const useRedis = process.env.USE_REDIS === "true";
@@ -72,10 +91,7 @@ async function connectRedis() {
 }
 
 function getRedisClient() {
-    if (!redisClient) {
-        throw new Error("Redis client not initialized");
-    }
-    return redisClient;
+    return connectRedis();
 }
 
 module.exports = {
