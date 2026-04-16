@@ -63,6 +63,24 @@ async function saveMailboxes(mailboxes) {
     });
 }
 
+async function getCards() {
+    const db = await initSqlite();
+    return db.all("SELECT cardnumber, card_time, created_at FROM cards ORDER BY datetime(created_at) DESC");
+}
+
+async function saveCards(cards) {
+    await runInWriteTransaction(async (db) => {
+        await db.run("DELETE FROM cards");
+
+        for (const item of cards || []) {
+            await db.run(
+                "INSERT INTO cards (cardnumber, card_time, created_at) VALUES (?, ?, ?)",
+                [String(item.cardnumber || ""), String(item.card_time || ""), item.created_at || null]
+            );
+        }
+    });
+}
+
 module.exports = {
     getDomains,
     saveDomains,
@@ -70,4 +88,6 @@ module.exports = {
     saveUsers,
     getMailboxes,
     saveMailboxes,
+    getCards,
+    saveCards,
 };

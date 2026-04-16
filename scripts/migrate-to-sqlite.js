@@ -68,14 +68,16 @@ async function run() {
     const usersPath = path.join(DATA_DIR, "users.json");
     const domainsPath = path.join(DATA_DIR, "domains.json");
     const mailboxesPath = path.join(DATA_DIR, "mailboxes.json");
+    const cardsPath = path.join(DATA_DIR, "cards.json");
 
-    const [users, domains, mailboxes] = await Promise.all([
+    const [users, domains, mailboxes, cards] = await Promise.all([
         readJsonArray(usersPath, []),
         readJsonArray(domainsPath, []),
         readJsonArray(mailboxesPath, []),
+        readJsonArray(cardsPath, []),
     ]);
 
-    console.log(`Loaded JSON: ${users.length} users, ${domains.length} domains, ${mailboxes.length} mailboxes`);
+    console.log(`Loaded JSON: ${users.length} users, ${domains.length} domains, ${mailboxes.length} mailboxes, ${cards.length} cards`);
 
     const db = await initSqlite();
 
@@ -85,6 +87,7 @@ async function run() {
         await db.run("DELETE FROM users");
         await db.run("DELETE FROM domains");
         await db.run("DELETE FROM mailboxes");
+        await db.run("DELETE FROM cards");
 
         // Insert users
         await batchInsert(
@@ -110,6 +113,14 @@ async function run() {
             mailboxes.map(m => [String(m.email || "").toLowerCase(), m.created_at || null, m.last_seen || null])
         );
 
+        // Insert cards
+        await batchInsert(
+            db,
+            "cards",
+            ["cardnumber", "card_time", "created_at"],
+            cards.map(c => [String(c.cardnumber || ""), String(c.card_time || ""), c.created_at || null])
+        );
+
         await db.exec("COMMIT");
         console.log("SQLite migration completed successfully!");
 
@@ -121,6 +132,7 @@ async function run() {
         console.log(`Users inserted: ${users.length}`);
         console.log(`Domains inserted: ${domains.length}`);
         console.log(`Mailboxes inserted: ${mailboxes.length}`);
+        console.log(`Cards inserted: ${cards.length}`);
     } catch (error) {
         await db.exec("ROLLBACK");
         console.error("Migration failed:", error);

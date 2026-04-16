@@ -43,8 +43,15 @@ async function initSqlite() {
             last_seen TEXT
         );
 
+        CREATE TABLE IF NOT EXISTS cards (
+            cardnumber TEXT PRIMARY KEY,
+            card_time TEXT NOT NULL,
+            created_at TEXT DEFAULT (datetime('now'))
+        );
+
         CREATE INDEX IF NOT EXISTS idx_domains_tier ON domains(tier);
         CREATE INDEX IF NOT EXISTS idx_mailboxes_last_seen ON mailboxes(last_seen);
+        CREATE INDEX IF NOT EXISTS idx_cards_created_at ON cards(created_at);
     `);
 
     return db;

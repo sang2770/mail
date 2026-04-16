@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon"
+    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM0OThkYiIvPgo8cGF0aCBkPSJtNiA5aDIwdjE0SDZ6IiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Im02IDlsMTAgN0wyNiA5IiBzdHJva2U9IiMzNDk4ZGIiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K" />
+  <title>Quản lý Cards</title>
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      color: #1f2937;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    h1,
+    h2 {
+      margin: 0 0 12px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr auto;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    input,
+    button {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    button.secondary {
+      background: #6b7280;
+    }
+
+    button.danger {
+      background: #dc2626;
+    }
+
+    .nav-btn {
+      display: inline-block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #6b7280;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 6px;
+      font-size: 14px;
+    }
+
+    .msg {
+      font-size: 14px;
+      margin-top: 4px;
+      color: #2563eb;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    a.link-btn {
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    @media (max-width: 900px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <h1>Quản lý Cards</h1>
+        <div class="small">Màn riêng cho cardnumber + card time.</div>
+      </div>
+      <div class="toolbar">
+        <a class="nav-btn" href="/admin.html">Về Admin</a>
+        <button class="secondary" id="logoutBtn" type="button">Đăng xuất</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Thêm Card</h2>
+      <form id="cardForm">
+        <input id="cardNumber" type="text" placeholder="cardnumber" required />
+        <input id="cardTime" type="text" placeholder="card time" required />
+        <button type="submit">Thêm card</button>
+      </form>
+      <div id="cardMsg" class="msg"></div>
+    </div>
+
+    <div class="card">
+      <h2>Danh sách Cards</h2>
+      <form id="cardFilterForm" style="grid-template-columns: 1fr auto auto">
+        <input id="cardQuery" type="text" placeholder="Tìm cardnumber hoặc card time" />
+        <button type="submit">Tìm kiếm</button>
+        <button type="button" class="secondary" id="exportCardBtn">Export TXT</button>
+      </form>
+      <div class="small" id="cardCount"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Card number</th>
+            <th>Card time</th>
+            <th>Tạo lúc</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="cardTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("mail_token");
+    const role = localStorage.getItem("mail_role");
+
+    if (!token || role !== "admin") {
+      window.location.href = "/login.html";
+    }
+
+    const authHeaders = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        ...options,
+        headers: {
+          ...authHeaders,
+          ...(options.headers || {}),
+        },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "Request failed");
+      }
+      return data;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function formatDateTime(value) {
+      if (!value) return "-";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "-";
+      return date.toLocaleString("vi-VN");
+    }
+
+    async function loadCards() {
+      const query = document.getElementById("cardQuery").value.trim();
+      const result = await api(`/api/admin/cards?page=1&limit=200&q=${encodeURIComponent(query)}`);
+      const table = document.getElementById("cardTable");
+
+      if (!result.cards || !result.cards.length) {
+        table.innerHTML = '<tr><td colspan="4" class="small">Chưa có card nào được thêm</td></tr>';
+      } else {
+        table.innerHTML = result.cards
+          .map(
+            (item) => `
+          <tr>
+            <td>${escapeHtml(item.cardnumber)}</td>
+            <td>${escapeHtml(item.card_time)}</td>
+            <td>${formatDateTime(item.created_at)}</td>
+            <td>
+              <div class="row-actions">
+                <button class="danger" type="button" onclick="deleteCard('${encodeURIComponent(item.cardnumber)}')">Xóa</button>
+              </div>
+            </td>
+          </tr>
+        `,
+          )
+          .join("");
+      }
+
+      document.getElementById("cardCount").textContent = `Tổng: ${result.total || 0} card`;
+    }
+
+    async function deleteCard(encodedCardNumber) {
+      const cardnumber = decodeURIComponent(encodedCardNumber);
+      if (!confirm(`Xóa card ${cardnumber}?`)) return;
+
+      try {
+        await api(`/api/admin/cards/${encodeURIComponent(cardnumber)}`, {
+          method: "DELETE",
+        });
+        document.getElementById("cardMsg").textContent = `Đã xóa card ${cardnumber}`;
+        await loadCards();
+      } catch (error) {
+        document.getElementById("cardMsg").textContent = error.message;
+      }
+    }
+
+    async function exportCards() {
+      const query = document.getElementById("cardQuery").value.trim();
+      const url = `/api/admin/cards/export.txt?q=${encodeURIComponent(query)}`;
+
+      try {
+        const response = await fetch(url, { headers: authHeaders });
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || "Export failed");
+        }
+
+        const blob = await response.blob();
+        const disposition = response.headers.get("Content-Disposition") || "";
+        const matched = disposition.match(/filename=([^;]+)/i);
+        const fileName = matched ? matched[1].replace(/\"/g, "") : "cards.txt";
+
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(downloadUrl);
+        document.getElementById("cardMsg").textContent = "Export file TXT thành công";
+      } catch (error) {
+        document.getElementById("cardMsg").textContent = error.message;
+      }
+    }
+
+    document.getElementById("cardForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const cardnumber = document.getElementById("cardNumber").value.trim();
+      const cardTime = document.getElementById("cardTime").value.trim();
+
+      try {
+        await api("/api/admin/cards", {
+          method: "POST",
+          body: JSON.stringify({ cardnumber, card_time: cardTime }),
+        });
+        document.getElementById("cardMsg").textContent = "Thêm card thành công";
+        event.target.reset();
+        await loadCards();
+      } catch (error) {
+        document.getElementById("cardMsg").textContent = error.message;
+      }
+    });
+
+    document.getElementById("cardFilterForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      try {
+        await loadCards();
+        document.getElementById("cardMsg").textContent = "";
+      } catch (error) {
+        document.getElementById("cardMsg").textContent = error.message;
+      }
+    });
+
+    document.getElementById("exportCardBtn").addEventListener("click", exportCards);
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("mail_token");
+      localStorage.removeItem("mail_role");
+      localStorage.removeItem("mail_username");
+      localStorage.removeItem("mail_token_expiry");
+      window.location.href = "/login.html";
+    });
+
+    loadCards().catch((error) => {
+      alert(error.message);
+      if (error.message.toLowerCase().includes("unauthorized") || error.message.toLowerCase().includes("admin")) {
+        window.location.href = "/login.html";
+      }
+    });
+
+    window.deleteCard = deleteCard;
+  </script>
+</body>
+
+</html>

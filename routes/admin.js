@@ -1,7 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const { requireAuth, requireAdmin } = require("../middleware/auth");
-const { getUsers, saveUsers, getDomains, saveDomains } = require("../services/configService");
+const { getUsers, saveUsers, getDomains, saveDomains, getCards, saveCards } = require("../services/configService");
 const { listCreatedMailboxes, deleteCreatedMailbox } = require("../services/emailService");
 
 const router = express.Router();
@@ -12,6 +12,10 @@ function parsePaging(req) {
     const page = Math.max(1, Number(req.query.page || 1));
     const limit = Math.max(1, Math.min(200, Number(req.query.limit || 50)));
     return { page, limit };
+}
+
+function normalizeCard(value) {
+    return String(value || "").trim();
 }
 
 router.get("/users", async (_req, res) => {
@@ -203,6 +207,140 @@ router.delete("/mailboxes", async (req, res) => {
         }
 
         return res.json({ deleted: true, email });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.get("/cards", async (req, res) => {
+    try {
+        const { page, limit } = parsePaging(req);
+        const q = String(req.query.q || "").trim().toLowerCase();
+        const entries = await getCards();
+
+        const filtered = entries.filter((item) => {
+            if (!q) return true;
+            return String(item.cardnumber || "").toLowerCase().includes(q)
+                || String(item.card_time || "").toLowerCase().includes(q);
+        });
+
+        const offset = (page - 1) * limit;
+        const cards = filtered.slice(offset, offset + limit);
+
+        return res.json({
+            cards,
+            page,
+            limit,
+            total: filtered.length,
+            has_more: offset + limit < filtered.length,
+        });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.post("/cards", async (req, res) => {
+    try {
+        const cardnumber = normalizeCard(req.body.cardnumber);
+        const card_time = normalizeCard(req.body.card_time);
+
+        if (!cardnumber || !card_time) {
+            return res.status(400).json({ error: "cardnumber and card_time are required" });
+        }
+
+        const cards = await getCards();
+        if (cards.some((item) => item.cardnumber === cardnumber)) {
+            return res.status(409).json({ error: "Card already exists" });
+        }
+
+        const card = {
+            cardnumber,
+            card_time,
+            created_at: new Date().toISOString(),
+        };
+
+        cards.unshift(card);
+        await saveCards(cards);
+
+        return res.status(201).json(card);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.get("/cards/export.txt", async (req, res) => {
+    try {
+        const q = String(req.query.q || "").trim().toLowerCase();
+        const entries = await getCards();
+        const filtered = entries.filter((item) => {
+            if (!q) return true;
+            return String(item.cardnumber || "").toLowerCase().includes(q)
+                || String(item.card_time || "").toLowerCase().includes(q);
+        });
+
+        const now = new Date().toISOString();
+        const lines = [
+            `# Cards export`,
+            `# Generated at: ${now}`,
+            `# Total: ${filtered.length}`,
+            "",
+            ...filtered.map((item) => `${item.cardnumber}\t${item.card_time}`),
+        ];
+
+        const text = `${lines.join("\n")}\n`;
+        const safeTimestamp = now.replace(/[:.]/g, "-");
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.setHeader("Content-Disposition", `attachment; filename=cards-${safeTimestamp}.txt`);
+        return res.status(200).send(text);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.patch("/cards/:cardnumber", async (req, res) => {
+    try {
+        const currentCardnumber = normalizeCard(req.params.cardnumber);
+        const nextCardnumber = normalizeCard(req.body.cardnumber || currentCardnumber);
+        const nextCardTime = normalizeCard(req.body.card_time);
+
+        if (!currentCardnumber) {
+            return res.status(400).json({ error: "cardnumber is required" });
+        }
+
+        const cards = await getCards();
+        const card = cards.find((item) => item.cardnumber === currentCardnumber);
+        if (!card) {
+            return res.status(404).json({ error: "Card not found" });
+        }
+
+        if (nextCardnumber !== currentCardnumber && cards.some((item) => item.cardnumber === nextCardnumber)) {
+            return res.status(409).json({ error: "Card already exists" });
+        }
+
+        card.cardnumber = nextCardnumber;
+        if (nextCardTime) {
+            card.card_time = nextCardTime;
+        }
+
+        await saveCards(cards);
+        return res.json(card);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.delete("/cards/:cardnumber", async (req, res) => {
+    try {
+        const cardnumber = normalizeCard(req.params.cardnumber);
+        const cards = await getCards();
+        const filtered = cards.filter((item) => item.cardnumber !== cardnumber);
+
+        if (filtered.length === cards.length) {
+            return res.status(404).json({ error: "Card not found" });
+        }
+
+        await saveCards(filtered);
+        return res.json({ deleted: true, cardnumber });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

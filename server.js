@@ -37,6 +37,9 @@ async function bootstrap() {
     app.get("/", (_req, res) => {
         res.sendFile(path.join(publicDir, "index.html"));
     });
+    app.get("/admin/cards", (_req, res) => {
+        res.sendFile(path.join(publicDir, "cards.html"));
+    });
 
     await initSqlite();
     await connectRedis();
