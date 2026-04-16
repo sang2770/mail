@@ -15,6 +15,7 @@ const emailRoutes = require("./routes/email");
 const webhookRoutes = require("./routes/webhook");
 const adminRoutes = require("./routes/admin");
 const systemRoutes = require("./routes/system");
+const cardsRoutes = require("./routes/cards");
 const { startSmtpServer } = require("./routes/smtp");
 
 async function bootstrap() {
@@ -31,6 +32,7 @@ async function bootstrap() {
     app.use("/api", webhookRoutes);
     app.use("/api/admin", adminRoutes);
     app.use("/api", systemRoutes);
+    app.use("/api", cardsRoutes);
 
     const publicDir = path.join(__dirname, "public");
     app.use(express.static(publicDir));
