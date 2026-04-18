@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const { getRedisClient } = require("../redis/redisClient");
 const { extractOTP } = require("@onedaydevelopers/otp-detector");
-const { getMailboxes, saveMailboxes } = require("./configService");
+const { getMailboxes, upsertMailbox, deleteMailbox } = require("./configService");
 
 const EMAIL_TTL_SECONDS = 24 * 60 * 60;
 
@@ -17,15 +17,6 @@ function normalizeEmail(email) {
     return String(email || "").trim().toLowerCase();
 }
 
-async function getMailboxRegistry() {
-    const entries = await getMailboxes();
-    return Array.isArray(entries) ? entries : [];
-}
-
-async function saveMailboxRegistry(entries) {
-    await saveMailboxes(entries);
-}
-
 async function registerMailbox(email) {
     const mailbox = normalizeEmail(email);
     if (!mailbox || !mailbox.includes("@")) {
@@ -33,16 +24,7 @@ async function registerMailbox(email) {
     }
 
     const now = new Date().toISOString();
-    const entries = await getMailboxRegistry();
-    const existing = entries.find((item) => item.email === mailbox);
-
-    if (existing) {
-        existing.last_seen = now;
-    } else {
-        entries.unshift({ email: mailbox, created_at: now, last_seen: now });
-    }
-
-    await saveMailboxRegistry(entries);
+    await upsertMailbox(mailbox, now, now);
 }
 
 async function getMessages(email) {
@@ -145,7 +127,7 @@ async function getInbox(email, page = 1, limit = 20) {
 
 async function listCreatedMailboxes(page = 1, limit = 20, query = "") {
     const normalizedQuery = String(query || "").trim().toLowerCase();
-    const entries = await getMailboxRegistry();
+    const entries = await getMailboxes();
 
     const filtered = entries
         .filter((item) => item && item.email)
@@ -182,18 +164,12 @@ async function deleteCreatedMailbox(email) {
         return false;
     }
 
-    const entries = await getMailboxRegistry();
-    const nextEntries = entries.filter((item) => item.email !== mailbox);
-    if (nextEntries.length === entries.length) {
-        return false;
-    }
-
     const messages = await getMessages(mailbox);
     const redis = await getRedisClient();
 
     await Promise.all(messages.map((item) => redis.del(messageIndexKey(item.id))));
     await redis.del(emailKey(mailbox));
-    await saveMailboxRegistry(nextEntries);
+    await deleteMailbox(mailbox);
 
     return true;
 }

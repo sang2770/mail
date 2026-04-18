@@ -1,7 +1,11 @@
 const express = require("express");
 const crypto = require("crypto");
 const { requireAuth, requireAdmin } = require("../middleware/auth");
-const { getUsers, saveUsers, getDomains, saveDomains, getCards, saveCards } = require("../services/configService");
+const { 
+    getUsers, addUser, updateUser, deleteUser,
+    getDomains, addDomain, updateDomain, deleteDomain, 
+    getCards, addCard, updateCard, deleteCard 
+} = require("../services/configService");
 const { listCreatedMailboxes, deleteCreatedMailbox } = require("../services/emailService");
 
 const router = express.Router();
@@ -47,8 +51,7 @@ router.post("/users", async (req, res) => {
             role,
         };
 
-        users.push(user);
-        await saveUsers(users);
+        await addUser(user);
 
         const { password: _pw, ...safe } = user;
         return res.status(201).json(safe);
@@ -65,11 +68,13 @@ router.patch("/users/:username", async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        if (req.body.role) user.role = req.body.role;
-        if (req.body.password) user.password = req.body.password;
+        await updateUser(req.params.username, {
+            password: req.body.password,
+            role: req.body.role
+        });
 
-        await saveUsers(users);
-        const { password, ...safe } = user;
+        const updatedUser = { ...user, ...req.body };
+        const { password, ...safe } = updatedUser;
         return res.json(safe);
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -78,13 +83,7 @@ router.patch("/users/:username", async (req, res) => {
 
 router.delete("/users/:username", async (req, res) => {
     try {
-        const users = await getUsers();
-        const filtered = users.filter((item) => item.username !== req.params.username);
-        if (filtered.length === users.length) {
-            return res.status(404).json({ error: "User not found" });
-        }
-
-        await saveUsers(filtered);
+        await deleteUser(req.params.username);
         return res.json({ deleted: true });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -112,16 +111,8 @@ router.post("/domains", async (req, res) => {
             return res.status(409).json({ error: "Domain already exists" });
         }
 
-        const domain = {
-            name: String(name).toLowerCase(),
-            tier,
-            public: Boolean(isPublic),
-        };
-
-        domains.push(domain);
-        await saveDomains(domains);
-
-        return res.status(201).json(domain);
+        await addDomain(name, tier, isPublic);
+        return res.status(201).json({ name, tier, public: !!isPublic });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -129,17 +120,8 @@ router.post("/domains", async (req, res) => {
 
 router.patch("/domains/:name", async (req, res) => {
     try {
-        const domains = await getDomains();
-        const domain = domains.find((item) => item.name === req.params.name);
-        if (!domain) {
-            return res.status(404).json({ error: "Domain not found" });
-        }
-
-        if (req.body.tier) domain.tier = req.body.tier;
-        if (typeof req.body.public === "boolean") domain.public = req.body.public;
-
-        await saveDomains(domains);
-        return res.json(domain);
+        await updateDomain(req.params.name, req.body);
+        return res.json({ name: req.params.name, ...req.body });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -147,13 +129,7 @@ router.patch("/domains/:name", async (req, res) => {
 
 router.delete("/domains/:name", async (req, res) => {
     try {
-        const domains = await getDomains();
-        const filtered = domains.filter((item) => item.name !== req.params.name);
-        if (filtered.length === domains.length) {
-            return res.status(404).json({ error: "Domain not found" });
-        }
-
-        await saveDomains(filtered);
+        await deleteDomain(req.params.name);
         return res.json({ deleted: true });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -248,20 +224,13 @@ router.post("/cards", async (req, res) => {
             return res.status(400).json({ error: "cardnumber and card_time are required" });
         }
 
-        const cards = await getCards();
-        if (cards.some((item) => item.cardnumber === cardnumber)) {
-            return res.status(409).json({ error: "Card already exists" });
-        }
-
         const card = {
             cardnumber,
             card_time,
             created_at: new Date().toISOString(),
         };
 
-        cards.unshift(card);
-        await saveCards(cards);
-
+        await addCard(card);
         return res.status(201).json(card);
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -307,23 +276,12 @@ router.patch("/cards/:cardnumber", async (req, res) => {
             return res.status(400).json({ error: "cardnumber is required" });
         }
 
-        const cards = await getCards();
-        const card = cards.find((item) => item.cardnumber === currentCardnumber);
-        if (!card) {
-            return res.status(404).json({ error: "Card not found" });
-        }
+        await updateCard(currentCardnumber, {
+            cardnumber: nextCardnumber,
+            card_time: nextCardTime
+        });
 
-        if (nextCardnumber !== currentCardnumber && cards.some((item) => item.cardnumber === nextCardnumber)) {
-            return res.status(409).json({ error: "Card already exists" });
-        }
-
-        card.cardnumber = nextCardnumber;
-        if (nextCardTime) {
-            card.card_time = nextCardTime;
-        }
-
-        await saveCards(cards);
-        return res.json(card);
+        return res.json({ cardnumber: nextCardnumber, card_time: nextCardTime });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -331,16 +289,8 @@ router.patch("/cards/:cardnumber", async (req, res) => {
 
 router.delete("/cards/:cardnumber", async (req, res) => {
     try {
-        const cardnumber = normalizeCard(req.params.cardnumber);
-        const cards = await getCards();
-        const filtered = cards.filter((item) => item.cardnumber !== cardnumber);
-
-        if (filtered.length === cards.length) {
-            return res.status(404).json({ error: "Card not found" });
-        }
-
-        await saveCards(filtered);
-        return res.json({ deleted: true, cardnumber });
+        await deleteCard(req.params.cardnumber);
+        return res.json({ deleted: true, cardnumber: req.params.cardnumber });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
